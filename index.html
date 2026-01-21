@@ -12,7 +12,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.0.1"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!-- CesiumJS for 3D Visualization -->
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.108/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.108/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
   <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js"
     data-id="flightplayback" data-description="Support me on Buy me a coffee!" data-message="" data-color="#40DCA5"
     data-position="Right" data-x_margin="70" data-y_margin="18"></script>
@@ -268,6 +272,58 @@
       transform: scale(1.1);
       background-color: var(--button-hover);
     }
+
+    /* 3D Container */
+    #cesiumContainer {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    /* 3D Toggle Button */
+    #toggle3DBtn {
+      position: absolute;
+      top: 260px;
+      right: 12px;
+      z-index: 1001;
+      padding: 10px;
+      background-color: var(--glass-bg);
+      color: var(--text-main);
+      border-radius: 50%;
+      border: 1px solid var(--glass-border);
+      cursor: pointer;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 6px var(--shadow-color);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+    }
+
+    #toggle3DBtn:hover {
+      transform: scale(1.1);
+      background-color: var(--button-hover);
+    }
+
+    /* Hide Cesium's default UI elements */
+    .cesium-viewer-bottom {
+      display: none !important;
+    }
+
+    .cesium-viewer-toolbar {
+      top: 10px !important;
+      right: 60px !important;
+    }
+
 
     #infoModal {
       position: fixed;
@@ -1221,6 +1277,18 @@
     </div>
   </div>
   <div id="map"></div>
+  <!-- 3D Cesium Container (hidden by default) -->
+  <div id="cesiumContainer" style="display: none;"></div>
+  <button id="toggle3DBtn" title="Toggle 2D/3D View">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path
+        d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+      </path>
+      <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+      <line x1="12" y1="22.08" x2="12" y2="12"></line>
+    </svg>
+  </button>
   <div id="flightSelectorContainer" class="collapsed" style="display: none;">
     <div id="flightSelector" class="flight-selector"></div>
   </div>
@@ -1304,6 +1372,55 @@
     let allFlights = [];
     let currentFlightIndex = 0;
     let currentFlightData = null;
+
+    // Cesium 3D Variables
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhYTNmZTFhNC1mNDBlLTQ0MGMtOWY5Yi0wODdjNzk4ODRkZWEiLCJpZCI6Mzc5Mzg3LCJpYXQiOjE3Njg1Mjg2OTN9.N_lOlCsyXEE9vkrDpzTqAbBbZpU_jSXF2LQ0ycDKOD4';
+    let viewer = null;
+    let cesiumAircraftEntity = null;
+    let cesiumPathEntity = null;
+    let is3DMode = false;
+    let cesiumInitialized = false;
+
+    // Initialize Cesium viewer (lazy loading)
+    async function initCesium() {
+      if (cesiumInitialized) return;
+
+      try {
+        viewer = new Cesium.Viewer('cesiumContainer', {
+          terrainProvider: await Cesium.createWorldTerrainAsync(),
+          animation: false,
+          timeline: false,
+          infoBox: false,
+          selectionIndicator: false,
+          navigationHelpButton: false,
+          baseLayerPicker: true,
+          fullscreenButton: false,
+          geocoder: false,
+          homeButton: false,
+          sceneModePicker: true,
+          shouldAnimate: false
+        });
+
+        viewer.scene.globe.depthTestAgainstTerrain = true;
+        viewer.scene.globe.enableLighting = false;
+
+        // Sync Cesium clock with playback
+        viewer.clock.onTick.addEventListener((clock) => {
+          if (!is3DMode || !currentFlightData || !isPlaying) return;
+          syncStatsFrom3D();
+        });
+
+        cesiumInitialized = true;
+        console.log("Cesium initialized successfully");
+      } catch (error) {
+        console.error("Cesium initialization failed:", error);
+        alert("Failed to initialize 3D view. Falling back to 2D mode.");
+        is3DMode = false;
+        document.getElementById('map').style.display = 'block';
+        document.getElementById('cesiumContainer').style.display = 'none';
+      }
+    }
+
 
     function calculateFlightTime(data) {
       if (!data || data.length === 0) return "00:00:00";
@@ -1518,6 +1635,194 @@
       }
       return 'rgb(255,255,255)';
     }
+
+    // Convert RGB color string to Cesium Color
+    function rgbToCesiumColor(rgbString) {
+      const rgb = rgbString.match(/\d+/g).map(Number);
+      return Cesium.Color.fromBytes(rgb[0], rgb[1], rgb[2]);
+    }
+
+    // Create 3D flight path in Cesium
+    function create3DFlightPath(flightData) {
+      if (!viewer || !flightData || flightData.length === 0) return;
+
+      viewer.entities.removeAll();
+
+      const positionProperty = new Cesium.SampledPositionProperty();
+      const orientationProperty = new Cesium.SampledProperty(Cesium.Quaternion);
+
+      // Convert flight points format to expected format if needed
+      let processedData = flightData;
+      if (flightData[0] && flightData[0].lat !== undefined) {
+        // This is flight points format, convert it
+        processedData = flightData.map(point => ({
+          UTC: point.utcTime || new Date(point.rawUnix * 1000).toISOString(),
+          Position: `${point.lat},${point.lng}`,
+          Altitude: point.altitudeFeet || 0,
+          Direction: point.direction || 0,
+          Speed: point.speed || 0
+        }));
+      }
+
+      const startTime = Cesium.JulianDate.fromDate(new Date(processedData[0].UTC));
+      const stopTime = Cesium.JulianDate.fromDate(new Date(processedData[processedData.length - 1].UTC));
+
+      viewer.clock.startTime = startTime.clone();
+      viewer.clock.stopTime = stopTime.clone();
+      viewer.clock.currentTime = startTime.clone();
+      viewer.clock.clockRange = Cesium.ClockRange.CLAMPED;
+      viewer.clock.multiplier = getSpeedMultiplier();
+
+      const pathPositions = [];
+      const pathColors = [];
+
+      processedData.forEach((row) => {
+        const time = Cesium.JulianDate.fromDate(new Date(row.UTC));
+        const [lat, lon] = row.Position.split(',').map(Number);
+        const alt = (row.Altitude || 0) * 0.3048; // feet to meters
+
+        const position = Cesium.Cartesian3.fromDegrees(lon, lat, alt);
+        positionProperty.addSample(time, position);
+        pathPositions.push(position);
+        pathColors.push(rgbToCesiumColor(getColorFromAltitude(row.Altitude || 0)));
+
+        // Orientation based on heading
+        const heading = Cesium.Math.toRadians(row.Direction || 0);
+        const hpr = new Cesium.HeadingPitchRoll(heading - Cesium.Math.PI_OVER_TWO, 0, 0);
+        const orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
+        orientationProperty.addSample(time, orientation);
+      });
+
+      // Aircraft entity
+      cesiumAircraftEntity = viewer.entities.add({
+        position: positionProperty,
+        orientation: orientationProperty,
+        point: {
+          pixelSize: 10,
+          color: Cesium.Color.YELLOW,
+          outlineColor: Cesium.Color.BLACK,
+          outlineWidth: 2,
+          disableDepthTestDistance: Number.POSITIVE_INFINITY
+        },
+        path: {
+          resolution: 1,
+          material: new Cesium.PolylineGlowMaterialProperty({
+            glowPower: 0.1,
+            color: Cesium.Color.YELLOW
+          }),
+          width: 10,
+          trailTime: 1000
+        }
+      });
+
+      // Flight path with altitude coloring
+      cesiumPathEntity = viewer.entities.add({
+        polyline: {
+          positions: pathPositions,
+          width: 6,
+          colors: pathColors,
+          colorsPerPosition: true
+        }
+      });
+
+      viewer.trackedEntity = cesiumAircraftEntity;
+      viewer.zoomTo(cesiumAircraftEntity);
+    }
+
+    // Get speed multiplier from current playback speed
+    function getSpeedMultiplier() {
+      const speeds = [1, 2, 5, 10, 20, 50, 100, 200, 300];
+      const speedIndex = parseInt(document.getElementById('speedControl').value);
+      return speeds[speedIndex] || 1;
+    }
+
+    // Toggle between 2D and 3D mode
+    async function toggle3DMode() {
+      is3DMode = !is3DMode;
+
+      if (is3DMode) {
+        // Initialize Cesium if not already done
+        if (!cesiumInitialized) {
+          await initCesium();
+          if (!cesiumInitialized) return; // Failed to initialize
+        }
+
+        // Switch to 3D
+        document.getElementById('map').style.display = 'none';
+        document.getElementById('cesiumContainer').style.display = 'block';
+
+        if (currentFlightData) {
+          create3DFlightPath(currentFlightData);
+          syncPlaybackTo3D();
+        }
+      } else {
+        // Switch to 2D
+        document.getElementById('map').style.display = 'block';
+        document.getElementById('cesiumContainer').style.display = 'none';
+
+        if (viewer) {
+          syncPlaybackFrom3D();
+        }
+      }
+    }
+
+    // Sync playback state from 2D to 3D
+    function syncPlaybackTo3D() {
+      if (!viewer || !currentFlightData) return;
+
+      const currentIndex = parseInt(document.getElementById('progressBar').value);
+      const currentRow = currentFlightData[currentIndex];
+      const currentTime = Cesium.JulianDate.fromDate(new Date(currentRow.UTC));
+
+      viewer.clock.currentTime = currentTime;
+      viewer.clock.shouldAnimate = isPlaying;
+      viewer.clock.multiplier = getSpeedMultiplier();
+    }
+
+    // Sync playback state from 3D to 2D
+    function syncPlaybackFrom3D() {
+      if (!viewer || !currentFlightData) return;
+
+      const currentTime = Cesium.JulianDate.toDate(viewer.clock.currentTime);
+
+      // Find closest index in flight data
+      let closestIndex = 0;
+      let minDiff = Infinity;
+
+      currentFlightData.forEach((row, index) => {
+        const diff = Math.abs(new Date(row.UTC) - currentTime);
+        if (diff < minDiff) {
+          minDiff = diff;
+          closestIndex = index;
+        }
+      });
+
+      document.getElementById('progressBar').value = closestIndex;
+      updateDisplay(closestIndex);
+    }
+
+    // Sync stats from 3D clock
+    function syncStatsFrom3D() {
+      if (!viewer || !currentFlightData) return;
+
+      const currentTime = Cesium.JulianDate.toDate(viewer.clock.currentTime);
+
+      // Find closest data point
+      let closestIndex = 0;
+      let minDiff = Infinity;
+
+      currentFlightData.forEach((row, index) => {
+        const diff = Math.abs(new Date(row.UTC) - currentTime);
+        if (diff < minDiff) {
+          minDiff = diff;
+          closestIndex = index;
+        }
+      });
+
+      document.getElementById('progressBar').value = closestIndex;
+      updateDisplay(closestIndex);
+    }
+
 
     function formatTime(rawTimestamp) {
       if (!rawTimestamp) return 'Heure inconnue';
@@ -1766,11 +2071,21 @@
       const speedIndex = parseInt(this.value);
       playbackSpeed = speedPresets[speedIndex];
       speedIndicator.textContent = speedLabels[speedIndex];
+
+      // Update 3D speed if in 3D mode
+      if (is3DMode && viewer) {
+        viewer.clock.multiplier = getSpeedMultiplier();
+      }
+
       if (isPlaying) {
         pauseFlight();
         playFlight();
       }
     });
+
+    // Add 3D toggle button event listener
+    document.getElementById('toggle3DBtn').addEventListener('click', toggle3DMode);
+
 
     function togglePlayPause() {
       if (isPlaying) {
@@ -1794,25 +2109,38 @@
 
         isPlaying = true;
 
-        playbackInterval = setInterval(() => {
-          let currentIndex = parseInt(progressBar.value);
-          if (currentIndex >= flightPathPoints.length - 1) {
-            pauseFlight();
-            updatePlayPauseButton();
-            return;
-          }
-          currentIndex++;
-          progressBar.value = currentIndex;
-          updateDisplay(currentIndex);
-          updateAircraftPosition(currentIndex);
-        }, playbackSpeed);
+        // Handle 3D mode playback
+        if (is3DMode && viewer) {
+          viewer.clock.shouldAnimate = true;
+          viewer.clock.multiplier = getSpeedMultiplier();
+        } else {
+          // 2D mode playback
+          playbackInterval = setInterval(() => {
+            let currentIndex = parseInt(progressBar.value);
+            if (currentIndex >= flightPathPoints.length - 1) {
+              pauseFlight();
+              updatePlayPauseButton();
+              return;
+            }
+            currentIndex++;
+            progressBar.value = currentIndex;
+            updateDisplay(currentIndex);
+            updateAircraftPosition(currentIndex);
+          }, playbackSpeed);
+        }
       }
     }
 
     function pauseFlight() {
       clearInterval(playbackInterval);
       isPlaying = false;
+
+      // Pause 3D mode if active
+      if (is3DMode && viewer) {
+        viewer.clock.shouldAnimate = false;
+      }
     }
+
 
     function updateAircraftPosition(index) {
       if (!flightPathPoints || !aircraftMarker || index >= flightPathPoints.length) return;
@@ -2364,6 +2692,11 @@
         paddingTopLeft: [70, 70],
         paddingBottomRight: [70, 70]
       });
+
+      // If in 3D mode, create the 3D flight path
+      if (is3DMode && viewer && cesiumInitialized) {
+        create3DFlightPath(flight.points);
+      }
     }
 
     /*
