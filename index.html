@@ -290,22 +290,66 @@
 
     #infoModal h3 {
       margin-top: 0;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       font-size: 1.2rem;
       font-weight: 600;
       color: var(--text-header);
+      border-bottom: 1px solid var(--glass-border);
+      padding-bottom: 10px;
     }
 
-    #infoModal p {
-      margin-bottom: 15px;
+    .info-group {
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .info-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+
+    .info-email {
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: opacity 0.2s;
+    }
+
+    .info-email:hover {
+      opacity: 0.8;
+      text-decoration: underline;
+    }
+
+    .info-subtext {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+    }
+
+    .info-feature {
       font-size: 0.9rem;
-      line-height: 1.5;
+      color: var(--text-main);
+      background: var(--button-bg);
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--button-border);
+      display: inline-block;
+      margin-top: 4px;
     }
 
     #infoModal .version {
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: var(--text-secondary);
-      margin-top: 20px;
+      margin-top: 25px;
+      border-top: 1px solid var(--glass-border);
+      padding-top: 10px;
+      opacity: 0.7;
     }
 
     #layerModal {
@@ -1149,11 +1193,18 @@
   </button>
   <div id="infoModal" style="display: none;">
     <h3>About Flight Playback</h3>
-    <p>
-      <strong><a href="mailto:flightplayback.webmaster@gmail.com"
-          style="color: inherit; text-decoration: none;">flightplayback.webmaster@gmail.com</a></strong><br>
-      <span style="font-size: 0.7rem;">(for feedbacks and bugs report)</span>
-    </p>
+
+    <div class="info-group">
+      <div class="info-label">Contact</div>
+      <a href="mailto:flightplayback.webmaster@gmail.com" class="info-email">flightplayback.webmaster@gmail.com</a>
+      <div class="info-subtext">For feedbacks and bug reports.</div>
+    </div>
+
+    <div class="info-group">
+      <div class="info-label">Coming Soon</div>
+      <div class="info-feature">3D Globe Visualiser</div>
+    </div>
+
     <div class="version">Version 0.1.0</div>
   </div>
   <div id="layerModal" style="display: none;">
