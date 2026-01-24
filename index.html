@@ -349,6 +349,39 @@
       background-color: var(--button-hover);
     }
 
+    #toggleTracksBtn {
+      position: absolute;
+      top: 380px;
+      right: 12px;
+      z-index: 1001;
+      padding: 10px;
+      background-color: var(--glass-bg);
+      color: var(--text-main);
+      border-radius: 50%;
+      border: 1px solid var(--glass-border);
+      cursor: pointer;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 6px var(--shadow-color);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+    }
+
+    #toggleTracksBtn.active {
+      background-color: var(--accent-color);
+      color: white;
+    }
+
+    #toggleTracksBtn:hover {
+      transform: scale(1.1);
+      background-color: var(--button-hover);
+    }
+
     /* Hide Cesium's default UI elements */
     .cesium-viewer-bottom {
       display: none !important;
@@ -1343,6 +1376,13 @@
       <line x1="8" y1="12" x2="16" y2="12" />
     </svg>
   </button>
+  <button id="toggleTracksBtn" title="Toggle Single/Multi Track View">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+      <circle cx="12" cy="12" r="3"></circle>
+    </svg>
+  </button>
 
   <!-- <button id="toggleMarkersBtn">VFR</button> -->
   <div class="infosbox collapsed">
@@ -1421,6 +1461,7 @@
     let allFlights = [];
     let currentFlightIndex = 0;
     let currentFlightData = null;
+    let isSingleTrackMode = false;
 
     // Cesium 3D Variables
     Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhYTNmZTFhNC1mNDBlLTQ0MGMtOWY5Yi0wODdjNzk4ODRkZWEiLCJpZCI6Mzc5Mzg3LCJpYXQiOjE3Njg1Mjg2OTN9.N_lOlCsyXEE9vkrDpzTqAbBbZpU_jSXF2LQ0ycDKOD4';
@@ -1451,8 +1492,21 @@
           shouldAnimate: false
         });
 
+
         viewer.scene.globe.depthTestAgainstTerrain = true;
         viewer.scene.globe.enableLighting = false;
+
+        // Improve rendering quality for mobile/Retina displays
+        // Use device pixel ratio but cap it at 2.0 to balance quality and performance on mobile
+        var pixelRatio = window.devicePixelRatio || 1;
+        viewer.resolutionScale = Math.min(pixelRatio, 2.0);
+
+        // Improve globe texture resolution (lower value = higher detail)
+        // Default is 2.0. Visual quality significantly improves at 1.5 or lower.
+        viewer.scene.globe.maximumScreenSpaceError = 1.5;
+
+        // Enable anti-aliasing if supported
+        viewer.scene.postProcessStages.fxaa.enabled = true;
 
         // Sync Cesium clock with playback
         viewer.clock.onTick.addEventListener((clock) => {
@@ -1718,20 +1772,18 @@
       return Cesium.Color.fromBytes(rgb[0], rgb[1], rgb[2]);
     }
 
-    // Create 3D flight path in Cesium
-    async function create3DFlightPath(flightData) {
-      if (!viewer || !flightData || flightData.length === 0) return;
-
-      viewer.entities.removeAll();
+    // Create 3D flight path in Cesium and attach to flight object
+    async function addFlightTo3D(flight) {
+      if (!viewer || !flight || !flight.points || flight.points.length === 0) return;
 
       const positionProperty = new Cesium.SampledPositionProperty();
       const orientationProperty = new Cesium.SampledProperty(Cesium.Quaternion);
 
       // Convert flight points format to expected format if needed
-      let processedData = flightData;
-      if (flightData[0] && flightData[0].lat !== undefined) {
+      let processedData = flight.points;
+      if (processedData[0] && processedData[0].lat !== undefined) {
         // This is flight points format, convert it
-        processedData = flightData.map(point => {
+        processedData = processedData.map(point => {
           let isoTime;
           if (point.rawUnix) {
             isoTime = new Date(point.rawUnix * 1000).toISOString();
@@ -1752,22 +1804,16 @@
       const startTime = Cesium.JulianDate.fromDate(new Date(processedData[0].UTC));
       const stopTime = Cesium.JulianDate.fromDate(new Date(processedData[processedData.length - 1].UTC));
 
-      viewer.clock.startTime = startTime.clone();
-      viewer.clock.stopTime = stopTime.clone();
-      viewer.clock.currentTime = startTime.clone();
-      viewer.clock.clockRange = Cesium.ClockRange.CLAMPED;
-      viewer.clock.multiplier = getSpeedMultiplier();
+      // Store time window on the flight object
+      flight.startTime = startTime.clone();
+      flight.stopTime = stopTime.clone();
 
       // --- Terrain Clamping Logic ---
-      // We asynchronously sample terrain height to ensure the aircraft doesn't go underground.
-      // Optimization: Only sample if altitude is low (e.g., < 3000ft) to save time/bandwidth.
-
       const terrainSamplePositions = [];
       const terrainSampleIndices = [];
 
       processedData.forEach((row, index) => {
         const alt = row.Altitude || 0;
-        // Optimization: Only check ground if we are reasonably low
         if (alt < 3000) {
           const [lat, lon] = row.Position.split(',').map(Number);
           terrainSamplePositions.push(Cesium.Cartographic.fromDegrees(lon, lat));
@@ -1779,21 +1825,14 @@
         try {
           await Cesium.sampleTerrainMostDetailed(viewer.terrainProvider, terrainSamplePositions);
 
-          // Apply clamped altitude
           for (let i = 0; i < terrainSamplePositions.length; i++) {
-            const terrainHeight = terrainSamplePositions[i].height; // Height in meters
+            const terrainHeight = terrainSamplePositions[i].height;
             const dataIndex = terrainSampleIndices[i];
             const originalAltMeters = (processedData[dataIndex].Altitude || 0) * 0.3048;
 
-            // If the terrain is defined and higher than the aircraft (or aircraft is at 0)
             if (terrainHeight !== undefined) {
-              // Buffer to keep wheels on ground (approx 1-2m)
               const buffer = 1.0;
-
               if (originalAltMeters < terrainHeight + buffer) {
-                // Clamp to ground
-                // Convert back to feet for consistency if needed, but we use meters for 3D
-                // We'll store a 'ClampedAltitudeMeters' property to use in the loop below
                 processedData[dataIndex].ClampedAltitudeMeters = terrainHeight + buffer;
               }
             }
@@ -1802,7 +1841,6 @@
           console.warn("Terrain sampling failed, proceeding with original altitudes:", error);
         }
       }
-      // -----------------------------
 
       const pathPositions = [];
       const pathColors = [];
@@ -1811,12 +1849,11 @@
         const time = Cesium.JulianDate.fromDate(new Date(row.UTC));
         const [lat, lon] = row.Position.split(',').map(Number);
 
-        // Use clamped altitude if calculated, otherwise convert original feet to meters
         let alt;
         if (row.ClampedAltitudeMeters !== undefined) {
           alt = row.ClampedAltitudeMeters;
         } else {
-          alt = (row.Altitude || 0) * 0.3048; // feet to meters
+          alt = (row.Altitude || 0) * 0.3048;
         }
 
         const position = Cesium.Cartesian3.fromDegrees(lon, lat, alt);
@@ -1824,18 +1861,15 @@
         pathPositions.push(position);
         pathColors.push(rgbToCesiumColor(getColorFromAltitude(row.Altitude || 0)));
 
-        // Orientation with Banking and Pitch
         const heading = Cesium.Math.toRadians(row.Direction || 0);
         let roll = 0;
         let pitch = 0;
 
-        // Calculate banking and pitch based on next point
         if (i < processedData.length - 1) {
           const nextRow = processedData[i + 1];
           let currentDir = row.Direction || 0;
           let nextDir = nextRow.Direction || 0;
 
-          // Banking (Roll)
           let diff = nextDir - currentDir;
           if (diff > 180) diff -= 360;
           if (diff < -180) diff += 360;
@@ -1846,53 +1880,33 @@
           if (roll < -maxBank) roll = -maxBank;
           roll = Cesium.Math.toRadians(roll);
 
-          // Pitch (Climb/Descent)
           const currentAlt = (row.Altitude || 0);
           const nextAlt = (nextRow.Altitude || 0);
           const altDiff = nextAlt - currentAlt;
-
-          // Simple proportional pitch based on altitude change between points
-          // Adjust sensitivity factor (0.1 seems reasonable for ft difference?)
-          // Pitch Up is negative in some frames, positive in others. 
-          // Standard Cesium HeadingPitchRoll: Pitch is rotation around Y-axis.
-          // Positive Pitch is often Nose UP. Let's try Positive = Up.
           const maxPitch = 15;
-
-          // Sensitivity: 100ft climb in one step -> ~10 degrees?
-          // This depends on the time/distance between steps but proportional works for visual effect.
           pitch = altDiff * 0.1;
-
           if (pitch > maxPitch) pitch = maxPitch;
           if (pitch < -maxPitch) pitch = -maxPitch;
-
-          // Debug direction: If altDiff is positive (Climb), pitch should be positive?
-          // Let's assume +Pitch = Up. 
           pitch = Cesium.Math.toRadians(pitch);
         }
 
-        // --- Ground Stability Check ---
-        // If aircraft is on the ground (<= 30ft), force level wings and nose.
-        // Use processedData original altitude (usually AGL/MSL from log)
         const altitudeFeet = row.Altitude || 0;
         if (altitudeFeet <= 30) {
           pitch = 0;
           roll = 0;
         }
 
-        // Apply Heading, Pitch, Roll
-        // Pitch is the second argument
         const hpr = new Cesium.HeadingPitchRoll(heading - Cesium.Math.PI_OVER_TWO, pitch, roll);
         const orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
         orientationProperty.addSample(time, orientation);
       });
 
       // Aircraft entity
-      cesiumAircraftEntity = viewer.entities.add({
+      const aircraftEntity = viewer.entities.add({
         position: positionProperty,
         orientation: orientationProperty,
         model: {
           uri: 'https://raw.githubusercontent.com/Ysurac/FlightAirMap-3dmodels/master/pa28/glTF2/PA28.glb',
-
           minimumPixelSize: 0,
           maximumScale: 100,
           runAnimations: true
@@ -1903,13 +1917,17 @@
             glowPower: 0.1,
             color: Cesium.Color.YELLOW
           }),
-          width: 2, // Thinner path since we have a model
+          width: 2,
           trailTime: 1000,
           leadTime: 0
+        },
+        properties: {
+          flightName: flight.name
         }
       });
 
-      // Flight path with altitude coloring - create individual segments like 2D map
+      // Track Segments
+      const segmentEntities = [];
       for (let i = 0; i < pathPositions.length - 1; i++) {
         const avgColor = Cesium.Color.lerp(
           pathColors[i],
@@ -1918,17 +1936,60 @@
           new Cesium.Color()
         );
 
-        viewer.entities.add({
+        const segment = viewer.entities.add({
           polyline: {
             positions: [pathPositions[i], pathPositions[i + 1]],
             width: 6,
             material: avgColor
           }
         });
+        segmentEntities.push(segment);
       }
 
-      viewer.trackedEntity = cesiumAircraftEntity;
-      viewer.zoomTo(cesiumAircraftEntity);
+      flight.cesiumEntity = aircraftEntity;
+      flight.cesiumTrackEntities = segmentEntities;
+
+      // Define zoom target: use track segments if available, otherwise aircraft
+      const zoomTarget = segmentEntities.length > 0 ? segmentEntities : aircraftEntity;
+
+      // Fly to top-down view (Pitch -90)
+      viewer.flyTo(zoomTarget, {
+        offset: new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-90), 0)
+      });
+
+      return aircraftEntity;
+    }
+
+    function configure3DForFlight(index) {
+      if (!viewer || index < 0 || index >= allFlights.length) return;
+      const flight = allFlights[index];
+      if (!flight.cesiumEntity || !flight.startTime || !flight.stopTime) return;
+
+      viewer.clock.startTime = flight.startTime.clone();
+      viewer.clock.stopTime = flight.stopTime.clone();
+      viewer.clock.currentTime = flight.startTime.clone();
+      viewer.clock.clockRange = Cesium.ClockRange.CLAMPED;
+      viewer.clock.multiplier = getSpeedMultiplier();
+
+      // Update global reference for follow functionality
+      cesiumAircraftEntity = flight.cesiumEntity;
+
+      // Update global reference for follow functionality
+      cesiumAircraftEntity = flight.cesiumEntity;
+
+      if (isFollowing) {
+        viewer.trackedEntity = cesiumAircraftEntity;
+      } else {
+        viewer.trackedEntity = undefined;
+        // Fly to top-down view of the track
+        const zoomTarget = (flight.cesiumTrackEntities && flight.cesiumTrackEntities.length > 0)
+          ? flight.cesiumTrackEntities
+          : cesiumAircraftEntity;
+
+        viewer.flyTo(zoomTarget, {
+          offset: new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-90), 0)
+        });
+      }
     }
 
     // Get speed multiplier from current playback speed
@@ -1956,11 +2017,24 @@
         // Show new buttons
         document.getElementById('followBtn').style.display = 'flex';
 
+        // Clear any old entities/state
+        viewer.entities.removeAll();
 
-        if (currentFlightData && currentFlightData.points) {
-          await create3DFlightPath(currentFlightData.points);
+        // Load ALL flights into 3D
+        for (let i = 0; i < allFlights.length; i++) {
+          const flight = allFlights[i];
+          // Always add if not present (although we just wiped all)
+          await addFlightTo3D(flight);
+        }
+
+        // Configure view for the CURRENT flight
+        if (currentFlightIndex >= 0) {
+          configure3DForFlight(currentFlightIndex);
           syncPlaybackTo3D();
         }
+
+        // Apply visibility settings
+        updateTrackVisibility();
 
         // Initialize state (must be after creating entity)
         isFollowing = false;
@@ -2484,6 +2558,9 @@
     }
 
     function clearAllFlights() {
+      if (viewer) {
+        viewer.entities.removeAll();
+      }
       // Remove all existing flight paths and markers
       allFlights.forEach(flight => {
         if (flight.path) map.removeLayer(flight.path);
@@ -2901,6 +2978,16 @@
 
       const toggleGraph = document.getElementById('toggleGraphBtn');
       if (toggleGraph) toggleGraph.style.display = 'flex';
+
+      // Ensure flight is added to 3D if 3D mode is active (for non-selected flights)
+      if (is3DMode && viewer && cesiumInitialized) {
+        const flight = allFlights[index];
+        if (flight && !flight.cesiumEntity) {
+          addFlightTo3D(flight);
+        }
+      }
+
+      updateTrackVisibility();
     }
 
     function selectFlight(index, isSingleFile = false) {
@@ -2959,6 +3046,8 @@
       // Update chart
       updateChart(flight.data);
 
+      updateTrackVisibility();
+
       // Fit bounds to this flight with padding to avoid UI overlap
       // paddingBottomRight y=300 to clear the bottom info box
       map.fitBounds(L.latLngBounds(flightPathPoints.map(p => [p.lat, p.lng])), {
@@ -2968,7 +3057,13 @@
 
       // If in 3D mode, create the 3D flight path
       if (is3DMode && viewer && cesiumInitialized) {
-        create3DFlightPath(flight.points);
+        if (!flight.cesiumEntity) {
+          addFlightTo3D(flight).then(() => {
+            configure3DForFlight(index);
+          });
+        } else {
+          configure3DForFlight(index);
+        }
       }
     }
 
@@ -3049,6 +3144,70 @@
       });
     });
     */
+
+    // Toggle Tracks Logic
+    const toggleTracksBtn = document.getElementById('toggleTracksBtn');
+    toggleTracksBtn.addEventListener('click', () => {
+      isSingleTrackMode = !isSingleTrackMode;
+      updateTrackVisibility();
+
+      // Update Button UI
+      if (isSingleTrackMode) {
+        toggleTracksBtn.classList.add('active');
+        // Optional: Change icon or tooltip
+        toggleTracksBtn.title = "Show All Tracks";
+      } else {
+        toggleTracksBtn.classList.remove('active');
+        toggleTracksBtn.title = "Show Selected Track Only";
+      }
+    });
+
+    function updateTrackVisibility() {
+      // 2D Visibility
+      allFlights.forEach((flight, index) => {
+        const shouldShow = !isSingleTrackMode || index === currentFlightIndex;
+
+        // 2D Layers
+        if (flight.altitudeSegments) {
+          flight.altitudeSegments.forEach(seg => {
+            if (shouldShow) {
+              if (!map.hasLayer(seg)) map.addLayer(seg);
+            } else {
+              if (map.hasLayer(seg)) map.removeLayer(seg);
+            }
+          });
+        }
+
+        // Start/End Markers
+        if (flight.startMarker) {
+          if (shouldShow) {
+            if (!map.hasLayer(flight.startMarker)) map.addLayer(flight.startMarker);
+          } else {
+            if (map.hasLayer(flight.startMarker)) map.removeLayer(flight.startMarker);
+          }
+        }
+        if (flight.endMarker) {
+          if (shouldShow) {
+            if (!map.hasLayer(flight.endMarker)) map.addLayer(flight.endMarker);
+          } else {
+            if (map.hasLayer(flight.endMarker)) map.removeLayer(flight.endMarker);
+          }
+        }
+
+        // 3D Visibility
+        if (viewer && cesiumInitialized && flight.cesiumTrackEntities) {
+          flight.cesiumTrackEntities.forEach(entity => {
+            entity.show = shouldShow;
+          });
+          // Also hide the aircraft entity if it's not the selected one? 
+          // The prompt implies "show tracks". Usually we want to hide other aircraft too in "single mode".
+          if (flight.cesiumEntity) {
+            // Always show the selected aircraft, hide others if single mode
+            flight.cesiumEntity.show = shouldShow;
+          }
+        }
+      });
+    }
 
     progressBar.addEventListener('input', function () {
       const index = parseInt(this.value);
