@@ -133,7 +133,7 @@
 
     #screenshotBtn {
       position: absolute;
-      top: 80px;
+      top: 140px;
       right: 12px;
       z-index: 1001;
       padding: 10px;
@@ -156,7 +156,7 @@
 
     #tipBtn {
       position: absolute;
-      top: 140px;
+      top: 200px;
       right: 12px;
       z-index: 1001;
       padding: 0;
@@ -247,7 +247,7 @@
 
     #infoBtn {
       position: absolute;
-      top: 200px;
+      top: 260px;
       right: 12px;
       z-index: 1001;
       padding: 10px;
@@ -273,6 +273,62 @@
       background-color: var(--button-hover);
     }
 
+    #layer3DBtn {
+      position: absolute;
+      top: 20px;
+      right: 12px;
+      z-index: 1001;
+      padding: 10px;
+      background-color: var(--glass-bg);
+      color: var(--text-main);
+      border-radius: 50%;
+      border: 1px solid var(--glass-border);
+      cursor: pointer;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 6px var(--shadow-color);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+    }
+
+    #layer3DBtn:hover {
+      transform: scale(1.1);
+      background-color: var(--button-hover);
+    }
+
+    #searchBtn {
+      position: absolute;
+      top: 380px;
+      right: 12px;
+      z-index: 1001;
+      padding: 10px;
+      background-color: var(--glass-bg);
+      color: var(--text-main);
+      border-radius: 50%;
+      border: 1px solid var(--glass-border);
+      cursor: pointer;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 6px var(--shadow-color);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+    }
+
+    #searchBtn:hover {
+      transform: scale(1.1);
+      background-color: var(--button-hover);
+    }
+
     /* 3D Container */
     #cesiumContainer {
       position: absolute;
@@ -288,7 +344,7 @@
     /* 3D Toggle Button */
     #toggle3DBtn {
       position: absolute;
-      top: 260px;
+      top: 80px;
       right: 12px;
       z-index: 1001;
       padding: 10px;
@@ -351,8 +407,10 @@
 
     #toggleTracksBtn {
       position: absolute;
-      top: 380px;
-      right: 12px;
+      top: 130px;
+      left: 12px;
+      right: auto;
+      z-index: 1001;
       z-index: 1001;
       padding: 10px;
       background-color: var(--glass-bg);
@@ -365,7 +423,8 @@
       backdrop-filter: blur(5px);
       -webkit-backdrop-filter: blur(5px);
       transition: all 0.3s ease;
-      display: flex;
+      display: none;
+      /* Hidden by default */
       align-items: center;
       justify-content: center;
       width: 44px;
@@ -390,6 +449,108 @@
     .cesium-viewer-toolbar {
       top: 10px !important;
       right: 60px !important;
+    }
+
+    .cesium-baseLayerPicker-dropDown {
+      display: none !important;
+    }
+
+    .cesium-baseLayerPicker-itemLabel {
+      display: none !important;
+    }
+
+    .cesium-baseLayerPicker-selected {
+      display: none !important;
+    }
+
+    button.cesium-button.cesium-toolbar-button[data-bind*="toggleDropDown"] {
+      display: none !important;
+    }
+
+
+
+    /* Custom Cesium Geocoder Styling */
+    .cesium-viewer-geocoderContainer {
+      position: fixed !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      margin: 0 !important;
+      z-index: 2001 !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      transition: opacity 0.3s ease, visibility 0.3s ease !important;
+    }
+
+    .cesium-viewer-geocoderContainer.active {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+
+    .cesium-geocoder-input {
+      background-color: var(--glass-bg) !important;
+      backdrop-filter: blur(5px) !important;
+      -webkit-backdrop-filter: blur(5px) !important;
+      border: 1px solid var(--glass-border) !important;
+      border-radius: 20px !important;
+      color: var(--text-main) !important;
+      padding: 8px 40px 8px 16px !important;
+      font-size: 0.9rem !important;
+      box-shadow: 0 4px 6px var(--shadow-color) !important;
+      transition: all 0.3s ease !important;
+      width: 300px !important;
+    }
+
+    .cesium-geocoder-input:focus {
+      outline: none !important;
+      border-color: var(--accent-color) !important;
+      box-shadow: 0 4px 12px var(--shadow-color) !important;
+    }
+
+    .cesium-geocoder-input::placeholder {
+      color: var(--text-secondary) !important;
+      opacity: 0.7 !important;
+    }
+
+    .cesium-geocoder-searchButton {
+      background-color: transparent !important;
+      border: none !important;
+      color: var(--text-main) !important;
+      right: 8px !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+    }
+
+    .cesium-geocoder-searchButton:hover {
+      background-color: var(--button-hover) !important;
+      border-radius: 50% !important;
+    }
+
+    .cesium-geocoder-suggestions {
+      background-color: var(--glass-bg) !important;
+      backdrop-filter: blur(15px) !important;
+      -webkit-backdrop-filter: blur(15px) !important;
+      border: 1px solid var(--glass-border) !important;
+      border-radius: 12px !important;
+      box-shadow: 0 8px 32px var(--shadow-color) !important;
+      margin-top: 8px !important;
+      overflow: hidden !important;
+    }
+
+    .cesium-geocoder-suggestion {
+      color: var(--text-main) !important;
+      padding: 10px 16px !important;
+      border-bottom: 1px solid var(--glass-border) !important;
+      transition: background-color 0.2s ease !important;
+    }
+
+    .cesium-geocoder-suggestion:last-child {
+      border-bottom: none !important;
+    }
+
+    .cesium-geocoder-suggestion:hover,
+    .cesium-geocoder-suggestion-selected {
+      background-color: var(--button-hover) !important;
     }
 
 
@@ -494,6 +655,25 @@
       color: var(--text-main);
       display: none;
       /* Explicitly hidden in CSS too */
+    }
+
+    #layer3DModal {
+      position: fixed;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--glass-bg);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 20px;
+      z-index: 2000;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      width: 250px;
+      text-align: center;
+      color: var(--text-main);
+      display: none;
     }
 
     #errorModal {
@@ -809,7 +989,7 @@
     /* Flight Selector Container */
     #flightSelectorContainer {
       position: absolute;
-      top: 198px;
+      top: 250px;
       left: 0;
       z-index: 1001;
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -837,7 +1017,7 @@
 
     #flightSelectorToggle {
       position: absolute;
-      top: 130px;
+      top: 190px;
       left: 12px;
       z-index: 1001;
       padding: 10px;
@@ -1307,12 +1487,27 @@
       <polyline points="2 12 12 17 22 12"></polyline>
     </svg>
   </button>
+  <button id="layer3DBtn" title="Change 3D Map Layer" style="display: none;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+      <polyline points="2 17 12 22 22 17"></polyline>
+      <polyline points="2 12 12 17 22 12"></polyline>
+    </svg>
+  </button>
   <button id="infoBtn" title="Info & Contact">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="10"></circle>
       <line x1="12" y1="16" x2="12" y2="12"></line>
       <line x1="12" y1="8" x2="12.01" y2="8"></line>
+    </svg>
+  </button>
+  <button id="searchBtn" title="Search Location" style="display: none;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
     </svg>
   </button>
   <div id="infoModal" style="display: none;">
@@ -1329,7 +1524,7 @@
       <div class="info-feature">3D Globe Visualiser</div>
     </div>
 
-    <div class="version">Version 0.1.37</div>
+    <div class="version">Version 0.1.0</div>
   </div>
   <div id="layerModal" style="display: none;">
     <h3>Select Map Style</h3>
@@ -1342,6 +1537,18 @@
       <button class="layer-option" onclick="switchBaseLayer('CartoDB Light')">CartoDB Light</button>
       <button class="layer-option" onclick="switchBaseLayer('CartoDB Dark')">CartoDB Dark</button>
       <button class="layer-option" onclick="switchBaseLayer('OpenTopoMap')">OpenTopoMap</button>
+    </div>
+  </div>
+  <div id="layer3DModal" style="display: none;">
+    <h3>Select 3D Map Style</h3>
+    <div class="layer-options">
+      <!-- 3D Layer Options -->
+      <button class="layer-option" onclick="switch3DBaseLayer('Bing Maps Aerial')">Bing Maps Aerial</button>
+      <button class="layer-option" onclick="switch3DBaseLayer('Bing Maps Roads')">Bing Maps Roads</button>
+      <button class="layer-option active" onclick="switch3DBaseLayer('ArcGIS World Imagery')">ArcGIS World
+        Imagery</button>
+      <button class="layer-option" onclick="switch3DBaseLayer('ArcGIS World Hillshade')">ArcGIS World Hillshade</button>
+      <button class="layer-option" onclick="switch3DBaseLayer('OpenStreetMap')">OpenStreetMap</button>
     </div>
   </div>
   <div id="map"></div>
@@ -1377,11 +1584,7 @@
     </svg>
   </button>
   <button id="toggleTracksBtn" title="Toggle Single/Multi Track View">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-      <circle cx="12" cy="12" r="3"></circle>
-    </svg>
+    <!-- Icon removed, content set dynamically -->
   </button>
 
   <!-- <button id="toggleMarkersBtn">VFR</button> -->
@@ -1477,18 +1680,49 @@
       if (cesiumInitialized) return;
 
       try {
+        const imageryViewModels = Cesium.createDefaultImageryProviderViewModels();
+        const allowedLayers = [
+          'Bing Maps Aerial',
+          'Bing Maps Roads',
+          'ArcGIS World Imagery',
+          'ArcGIS World Hillshade'
+        ];
+
+        const filteredViewModels = imageryViewModels.filter(vm =>
+          allowedLayers.some(allowed => vm.name.includes(allowed))
+        );
+
+        // Explicitly add OpenStreetMap
+        filteredViewModels.push(new Cesium.ProviderViewModel({
+          name: 'OpenStreetMap',
+          iconUrl: Cesium.buildModuleUrl('Widgets/Images/ImageryProviders/openStreetMap.png'),
+          tooltip: 'OpenStreetMap',
+          creationFunction: function () {
+            return new Cesium.UrlTemplateImageryProvider({
+              url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+              subdomains: 'abc',
+              maximumLevel: 19
+            });
+          }
+        }));
+
+        const selectedImageryViewModel = filteredViewModels.find(vm => vm.name.includes('ArcGIS World Imagery')) || filteredViewModels[0];
+
         viewer = new Cesium.Viewer('cesiumContainer', {
           terrainProvider: await Cesium.createWorldTerrainAsync(),
+          imageryProviderViewModels: filteredViewModels,
+          terrainProviderViewModels: [],
           animation: false,
           timeline: false,
           infoBox: false,
           selectionIndicator: false,
           navigationHelpButton: false,
           baseLayerPicker: true,
+          selectedImageryProviderViewModel: selectedImageryViewModel,
           fullscreenButton: false,
-          geocoder: false,
+          geocoder: true,
           homeButton: false,
-          sceneModePicker: true,
+          sceneModePicker: false,
           shouldAnimate: false
         });
 
@@ -1497,16 +1731,26 @@
         viewer.scene.globe.enableLighting = false;
 
         // Improve rendering quality for mobile/Retina displays
-        // Use device pixel ratio but cap it at 2.0 to balance quality and performance on mobile
+        // Use full device pixel ratio for sharp rendering on high-DPI displays (iPhone, etc.)
         var pixelRatio = window.devicePixelRatio || 1;
-        viewer.resolutionScale = Math.min(pixelRatio, 2.0);
+        viewer.resolutionScale = pixelRatio; // Use full device pixel ratio (3.0 on iPhone)
 
         // Improve globe texture resolution (lower value = higher detail)
-        // Default is 2.0. Visual quality significantly improves at 1.5 or lower.
-        viewer.scene.globe.maximumScreenSpaceError = 1.5;
+        // Lowered from 1.5 to 1.0 for maximum quality on mobile
+        viewer.scene.globe.maximumScreenSpaceError = 1.0;
 
         // Enable anti-aliasing if supported
         viewer.scene.postProcessStages.fxaa.enabled = true;
+
+        // Set initial camera position to view Europe (matching user's desired view)
+        viewer.camera.setView({
+          destination: Cesium.Cartesian3.fromDegrees(15.0, 40.0, 20000000), // Centered on Europe, higher altitude for full continent view
+          orientation: {
+            heading: 0.0,
+            pitch: Cesium.Math.toRadians(-90), // Looking straight down
+            roll: 0.0
+          }
+        });
 
         // Sync Cesium clock with playback
         viewer.clock.onTick.addEventListener((clock) => {
@@ -2016,6 +2260,9 @@
 
         // Show new buttons
         document.getElementById('followBtn').style.display = 'flex';
+        document.getElementById('layerBtn').style.display = 'none';
+        document.getElementById('layer3DBtn').style.display = 'flex';
+        document.getElementById('searchBtn').style.display = 'flex';
 
         // Clear any old entities/state
         viewer.entities.removeAll();
@@ -2044,6 +2291,12 @@
         document.getElementById('map').style.display = 'block';
         document.getElementById('cesiumContainer').style.display = 'none';
         document.getElementById('followBtn').style.display = 'none';
+        document.getElementById('layerBtn').style.display = 'flex';
+        document.getElementById('layer3DBtn').style.display = 'none';
+        document.getElementById('searchBtn').style.display = 'none';
+        // Hide geocoder if it was open
+        const geocoderContainer = document.querySelector('.cesium-viewer-geocoderContainer');
+        if (geocoderContainer) geocoderContainer.classList.remove('active');
 
         if (viewer) {
           syncPlaybackFrom3D();
@@ -2231,6 +2484,8 @@
       layerModal.style.display = layerModal.style.display === 'block' ? 'none' : 'block';
       // Close other modals if open
       infoModal.style.display = 'none';
+      const layer3DModal = document.getElementById('layer3DModal');
+      if (layer3DModal) layer3DModal.style.display = 'none';
     });
 
     // Info Menu Logic
@@ -2239,6 +2494,8 @@
       infoModal.style.display = infoModal.style.display === 'block' ? 'none' : 'block';
       // Close other modals if open
       layerModal.style.display = 'none';
+      const layer3DModal = document.getElementById('layer3DModal');
+      if (layer3DModal) layer3DModal.style.display = 'none';
     });
 
     // Close modals when clicking outside
@@ -2286,6 +2543,63 @@
 
       // Close modal
       layerModal.style.display = 'none';
+    };
+
+    // 3D Layer Menu Logic
+    const layer3DBtn = document.getElementById('layer3DBtn');
+    const layer3DModal = document.getElementById('layer3DModal');
+    let current3DLayerName = 'ArcGIS World Imagery';
+
+    layer3DBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent click from bubbling to document
+      layer3DModal.style.display = layer3DModal.style.display === 'block' ? 'none' : 'block';
+      // Close other modals if open
+      infoModal.style.display = 'none';
+    });
+
+    // Close 3D layer modal when clicking outside
+    document.addEventListener('click', (e) => {
+      if (layer3DModal.style.display === 'block' &&
+        !layer3DModal.contains(e.target) &&
+        e.target !== layer3DBtn &&
+        !layer3DBtn.contains(e.target)) {
+        layer3DModal.style.display = 'none';
+      }
+    });
+
+    window.switch3DBaseLayer = function (name) {
+      if (!viewer || current3DLayerName === name) {
+        layer3DModal.style.display = 'none';
+        return;
+      }
+
+      // Find the imagery provider view model by name
+      const imageryViewModels = viewer.baseLayerPicker.viewModel.imageryProviderViewModels;
+      let targetViewModel = null;
+
+      for (let i = 0; i < imageryViewModels.length; i++) {
+        if (imageryViewModels[i].name === name || imageryViewModels[i].name.includes(name)) {
+          targetViewModel = imageryViewModels[i];
+          break;
+        }
+      }
+
+      if (targetViewModel) {
+        viewer.baseLayerPicker.viewModel.selectedImagery = targetViewModel;
+        current3DLayerName = name;
+      }
+
+      // Update UI active state
+      document.querySelectorAll('#layer3DModal .layer-option').forEach(btn => {
+        if (btn.textContent === name) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      // Close modal
+      layer3DModal.style.display = 'none';
     };
 
     // Error Modal & Overlay
@@ -2408,6 +2722,36 @@
         followBtn.style.color = '';
       }
     }
+
+    // Search Button Logic (3D Mode)
+    const searchBtn = document.getElementById('searchBtn');
+    searchBtn.addEventListener('click', () => {
+      if (!is3DMode || !viewer) return;
+      const geocoderContainer = document.querySelector('.cesium-viewer-geocoderContainer');
+      if (geocoderContainer) {
+        const isActive = geocoderContainer.classList.contains('active');
+        if (isActive) {
+          geocoderContainer.classList.remove('active');
+        } else {
+          geocoderContainer.classList.add('active');
+          // Focus the input after a short delay to ensure it's visible
+          setTimeout(() => {
+            const geocoderInput = document.querySelector('.cesium-geocoder-input');
+            if (geocoderInput) geocoderInput.focus();
+          }, 100);
+        }
+      }
+    });
+
+    // Close geocoder when clicking outside
+    document.addEventListener('click', (e) => {
+      const geocoderContainer = document.querySelector('.cesium-viewer-geocoderContainer');
+      if (geocoderContainer && geocoderContainer.classList.contains('active')) {
+        if (!geocoderContainer.contains(e.target) && e.target !== searchBtn && !searchBtn.contains(e.target)) {
+          geocoderContainer.classList.remove('active');
+        }
+      }
+    });
 
 
 
@@ -2615,6 +2959,8 @@
       if (flightTimeEl) flightTimeEl.textContent = '--:--:--';
       const flightDistanceEl = document.getElementById('flightDistance');
       if (flightDistanceEl) flightDistanceEl.textContent = '----';
+
+      updateToggleTracksButton();
     }
 
     function processKMLFile(file, index, isSingleFile) {
@@ -2988,6 +3334,7 @@
       }
 
       updateTrackVisibility();
+      updateToggleTracksButton();
     }
 
     function selectFlight(index, isSingleFile = false) {
@@ -3067,100 +3414,53 @@
       }
     }
 
-    /*
-    let showMarkers = false;
-
-    const vfrPoints = [
-      { coords: [33.43841601567446, -111.75538815237346], name: "THREE DOME CHURCH" },
-      { coords: [33.41199254647871, -111.72344653339482], name: "WAGON WHEEL" },
-      { coords: [33.451442, -111.669770], name: "MCKELLIPS ROAD" },
-      { coords: [33.43866693950161, -111.6626337051323], name: "BALL FIELDS" },
-      { coords: [33.410004, -111.613071], name: "POINT LIMA" },
-      { coords: [33.442993, -111.588846], name: "RC AIRFIELD" },
-      { coords: [33.36731941789664, -111.53085200313159], name: "AJ LANDFILL" },
-      { coords: [33.321551316756626, -111.42991940016202], name: "RENAISSANCE FESTIVAL" },
-      { coords: [33.253013, -111.414020], name: "CEMENT PLANT" },
-      { coords: [33.373270, -111.751450], name: "VALVISTA LAKES" },
-      { coords: [33.39124357152383, -111.69036638245055], name: "SUPER MALL" },
-      { coords: [33.06485236367131, -111.5148693346962], name: "MR VOLCANO" },
-      { coords: [33.25560430330835, -111.3388951495078], name: "FLORENCE JUNCTION" },
-      { coords: [33.37915128576638, -111.4605532335147], name: "GOLD CANYON" },
-      { coords: [33.24164274819704, -111.523013610029], name: "RITTENHOUSE" },
-      { coords: [33.1731, -111.67104], name: "THE GAP" },
-      { coords: [33.17206881765591, -111.4736358539546], name: "WATER SKY LAKE" },
-      { coords: [33.03058167410544, -111.6193482691844], name: "BLACK WATER" },
-    ];
-
-    function createVFRPointIcon() {
-      return L.divIcon({
-        className: 'vfr-icon',
-        html: `
-          <svg viewBox="0 0 24 24" width="24" height="24">
-            <circle cx="12" cy="12" r="10" fill="#2159ff" opacity="0.8"/>
-            <circle cx="12" cy="12" r="6" fill="#FFFFFF"/>
-          </svg>
-        `,
-        iconSize: [24, 24],
-        iconAnchor: [12, 12]
-      });
-    }
-
-    const vfrMarkers = vfrPoints.map(point => {
-      const marker = L.marker(point.coords, {
-        icon: createVFRPointIcon()
-      }).bindTooltip(point.name, {
-        permanent: false,
-        direction: 'top',
-        className: 'tooltip-content'
-      });
-      return marker;
-    });
-
-    const style = document.createElement('style');
-    style.textContent = `
-      .vfr-icon {
-        background-color: transparent;
-        border: none;
-        filter: drop-shadow(0 0 2px rgba(0,0,0,0.7));
-      }
-    `;
-    document.head.appendChild(style);
-
-    const toggleMarkersBtn = document.getElementById('toggleMarkersBtn');
-
-    toggleMarkersBtn.addEventListener('click', function () {
-      showMarkers = !showMarkers;
-
-      vfrMarkers.forEach(marker => {
-        if (showMarkers) {
-          map.addLayer(marker);
-          toggleMarkersBtn.style.backgroundColor = 'rgba(33, 89, 255)';
-          toggleMarkersBtn.style.color = 'rgb(255, 255, 255)';
-        } else {
-          map.removeLayer(marker);
-          toggleMarkersBtn.style.backgroundColor = 'rgba(255, 255, 255)';
-          toggleMarkersBtn.style.color = 'rgb(0, 0, 0)';
-        }
-      });
-    });
-    */
 
     // Toggle Tracks Logic
     const toggleTracksBtn = document.getElementById('toggleTracksBtn');
     toggleTracksBtn.addEventListener('click', () => {
       isSingleTrackMode = !isSingleTrackMode;
       updateTrackVisibility();
-
-      // Update Button UI
-      if (isSingleTrackMode) {
-        toggleTracksBtn.classList.add('active');
-        // Optional: Change icon or tooltip
-        toggleTracksBtn.title = "Show All Tracks";
-      } else {
-        toggleTracksBtn.classList.remove('active');
-        toggleTracksBtn.title = "Show Selected Track Only";
-      }
+      updateToggleTracksButton();
     });
+
+    function updateToggleTracksButton() {
+      const btn = document.getElementById('toggleTracksBtn');
+      if (!btn) return;
+
+      // Filter out any potential empty slots if using sparse array, though push/assignment relies on index
+      // allFlights matches index logic. Safe to filter.
+      const count = allFlights.filter(f => f).length;
+
+      // Hide if 0 or 1 file loaded. The button is only useful if we have > 1 file.
+      if (count <= 1) {
+        btn.style.display = 'none';
+        btn.textContent = "";
+        return;
+      }
+
+      // If we have > 1 file, ensure button is visible
+      btn.style.display = 'flex';
+
+      if (isSingleTrackMode) {
+        btn.textContent = "1";
+        btn.classList.add('active');
+        btn.title = "Show All " + count + " Tracks";
+        btn.style.fontSize = ''; // Reset standard size
+      } else {
+        btn.textContent = count.toString();
+        btn.classList.remove('active');
+        btn.title = "Show Single Track";
+
+        // Adjust font size for large numbers
+        if (count > 999) {
+          btn.style.fontSize = '0.7rem';
+        } else if (count > 99) {
+          btn.style.fontSize = '0.85rem';
+        } else {
+          btn.style.fontSize = '1.2rem';
+        }
+      }
+    }
 
     function updateTrackVisibility() {
       // 2D Visibility
@@ -3524,6 +3824,15 @@
       const zoomControl = document.querySelector('.leaflet-control-zoom');
       const scaleControl = document.querySelector('.leaflet-control-scale');
       const attributionControl = document.querySelector('.leaflet-control-attribution');
+      const layerBtn = document.getElementById('layerBtn');
+      const layer3DBtn = document.getElementById('layer3DBtn');
+      const infoBtn = document.getElementById('infoBtn');
+      const toggle3DBtn = document.getElementById('toggle3DBtn');
+      const followBtn = document.getElementById('followBtn');
+      const searchBtn = document.getElementById('searchBtn');
+      const tipBtn = document.getElementById('tipBtn');
+      const flightSelectorToggle = document.getElementById('flightSelectorToggle');
+      const toggleTracksBtn = document.getElementById('toggleTracksBtn');
 
       // Elements to hide (UI elements)
       const elementsToHide = [
@@ -3534,7 +3843,16 @@
         layersControl,
         zoomControl,
         scaleControl,
-        attributionControl
+        attributionControl,
+        layerBtn,
+        layer3DBtn,
+        infoBtn,
+        toggle3DBtn,
+        followBtn,
+        searchBtn,
+        tipBtn,
+        flightSelectorToggle,
+        toggleTracksBtn
       ];
 
       // Save initial visibility/display
@@ -3545,7 +3863,17 @@
         if (el) el.style.visibility = 'hidden';
       });
 
-      // Also hide takeoff/landing pins, aircraft marker, and shadows
+      // Hide Cesium UI elements if in 3D mode
+      let cesiumToolbar = null;
+      let cesiumGeocoder = null;
+      if (is3DMode && viewer) {
+        cesiumToolbar = document.querySelector('.cesium-viewer-toolbar');
+        cesiumGeocoder = document.querySelector('.cesium-viewer-geocoderContainer');
+        if (cesiumToolbar) cesiumToolbar.style.visibility = 'hidden';
+        if (cesiumGeocoder) cesiumGeocoder.style.visibility = 'hidden';
+      }
+
+      // Also hide takeoff/landing pins, aircraft marker, and shadows (2D mode)
       const shadowPane = document.querySelector('.leaflet-shadow-pane');
       if (shadowPane) shadowPane.style.display = 'none';
 
@@ -3556,19 +3884,33 @@
       if (aircraftMarker) aircraftMarker.getElement().style.display = 'none';
 
       try {
-        // We use html2canvas on the #map element directly instead of document.body
-        // This is safer and avoids potential issues with hidden elements
-        const canvas = await html2canvas(document.getElementById('map'), {
-          useCORS: true,
-          allowTaint: false,
-          backgroundColor: '#262626', // Match map background
-          logging: false,
-          scale: 2,
-          ignoreElements: (element) => {
-            // Further protect against any lingering UI elements inside map container if any
-            return element.classList.contains('leaflet-control-container');
-          }
-        });
+        let canvas;
+        if (is3DMode && viewer) {
+          // Capture 3D Cesium view
+          // Cesium renders to a canvas, we can use its render method
+          viewer.render();
+          const cesiumCanvas = viewer.scene.canvas;
+
+          // Create a new canvas to copy the Cesium canvas
+          canvas = document.createElement('canvas');
+          canvas.width = cesiumCanvas.width;
+          canvas.height = cesiumCanvas.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(cesiumCanvas, 0, 0);
+        } else {
+          // Capture 2D map view
+          canvas = await html2canvas(document.getElementById('map'), {
+            useCORS: true,
+            allowTaint: false,
+            backgroundColor: '#262626', // Match map background
+            logging: false,
+            scale: 2,
+            ignoreElements: (element) => {
+              // Further protect against any lingering UI elements inside map container if any
+              return element.classList.contains('leaflet-control-container');
+            }
+          });
+        }
 
         const link = document.createElement('a');
         link.download = `flight_playback_${new Date().getTime()}.png`;
@@ -3576,12 +3918,16 @@
         link.click();
       } catch (error) {
         console.error('Screenshot failed:', error);
-        alert('Failed to take screenshot. There might be a CORS issue with map tiles.');
+        alert('Failed to take screenshot.');
       } finally {
         // Restore UI elements
         elementsToHide.forEach((el, i) => {
           if (el) el.style.visibility = originalVisibility[i];
         });
+
+        // Restore Cesium UI elements
+        if (cesiumToolbar) cesiumToolbar.style.visibility = '';
+        if (cesiumGeocoder) cesiumGeocoder.style.visibility = '';
 
         // Restore takeoff/landing pins, aircraft marker, and shadows
         if (shadowPane) shadowPane.style.display = '';
@@ -3617,4 +3963,3 @@
 </body>
 
 </html>
-
