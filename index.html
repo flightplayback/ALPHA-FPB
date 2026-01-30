@@ -136,7 +136,7 @@
     #brandingBtn svg {
       width: 48px;
       height: 48px;
-      margin-left: 2px;
+      margin-left: 1px;
       display: block;
       filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 1));
     }
@@ -546,6 +546,94 @@
     }
 
     #toggleTracksBtn:hover {
+      transform: scale(1.1);
+      background-color: var(--button-hover);
+    }
+
+    /* Radar Button */
+    #radarBtn {
+      position: absolute;
+      top: 190px;
+      left: 12px;
+      z-index: 1001;
+      padding: 10px;
+      background-color: var(--glass-bg);
+      color: var(--text-main);
+      border-radius: 50%;
+      border: 1px solid var(--glass-border);
+      cursor: pointer;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 6px var(--shadow-color);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+    }
+
+    #radarBtn.active {
+      background-color: var(--accent-color);
+      color: white;
+    }
+
+    #radarBtn:hover {
+      transform: scale(1.1);
+      background-color: var(--button-hover);
+    }
+
+    /* ATC Data Label */
+    .atc-data-label {
+      font-family: 'Calibri';
+      position: absolute;
+      color: #ffffff;
+      font-size: 16px;
+      padding: 4px 8px;
+      pointer-events: none;
+      z-index: 600;
+      line-height: 1.1;
+      text-shadow: 0 0 2px rgba(0, 0, 0, 1);
+      white-space: nowrap;
+      -webkit-text-stroke: 4px black;
+      paint-order: stroke fill;
+    }
+
+    .atc-data-label.cesium-label {
+      /* For 3D mode styling if needed */
+      background-color: rgba(0, 40, 100, 0.9);
+    }
+
+    #follow2DBtn {
+      position: absolute;
+      top: 250px;
+      left: 12px;
+      z-index: 1001;
+      padding: 10px;
+      background-color: var(--glass-bg);
+      color: var(--text-main);
+      border-radius: 50%;
+      border: 1px solid var(--glass-border);
+      cursor: pointer;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 6px var(--shadow-color);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+    }
+
+    #follow2DBtn.active {
+      background-color: var(--accent-color);
+      color: white;
+    }
+
+    #follow2DBtn:hover {
       transform: scale(1.1);
       background-color: var(--button-hover);
     }
@@ -2148,6 +2236,45 @@
   <button id="toggleTracksBtn" title="Toggle Single/Multi Track View">
     <!-- Icon removed, content set dynamically -->
   </button>
+  <button id="radarBtn" title="Toggle ATC Radar Data">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Radar screen circle -->
+      <circle cx="12" cy="12" r="9"></circle>
+      <!-- Radar sweep line -->
+      <path d="M12 3 L12 12"></path>
+      <!-- Radar blips -->
+      <circle cx="15" cy="9" r="1.5" fill="currentColor"></circle>
+      <circle cx="9" cy="14" r="1.5" fill="currentColor"></circle>
+      <circle cx="16" cy="15" r="1.5" fill="currentColor"></circle>
+    </svg>
+  </button>
+  <button id="follow2DBtn" title="Toggle Follow 2D Mode">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Broken square corners (aiming reticle) -->
+      <!-- Top-left corner -->
+      <path d="M 4 4 L 4 8" />
+      <path d="M 4 4 L 8 4" />
+      <!-- Top-right corner -->
+      <path d="M 20 4 L 20 8" />
+      <path d="M 16 4 L 20 4" />
+      <!-- Bottom-left corner -->
+      <path d="M 4 20 L 4 16" />
+      <path d="M 4 20 L 8 20" />
+      <!-- Bottom-right corner -->
+      <path d="M 20 20 L 20 16" />
+      <path d="M 16 20 L 20 20" />
+      <!-- Top-down plane view in the middle -->
+      <!-- Fuselage (vertical line) -->
+      <path d="M 12 7 L 12 17" stroke-width="1.8" />
+      <!-- Wings (horizontal line) -->
+      <path d="M 8 10.5 L 16 10.5" stroke-width="1.8" />
+      <!-- Tail stabilizer (horizontal line at bottom) -->
+      <path d="M 10 15 L 14 15" stroke-width="1.8" />
+    </svg>
+  </button>
+
 
   <!-- <button id="toggleMarkersBtn">VFR</button> -->
   <div class="infosbox collapsed">
@@ -2275,6 +2402,11 @@
       let infoBoxSlideState = 0;
       let currentAircraftInfo = null; // Stores aircraft info from KML files
       let isKMLFile = false; // Track if current file is KML
+
+      // Radar mode variables
+      let radarModeEnabled = false;
+      let atcDataLabel = null;
+      let isFollowing2D = false;
 
       // Cesium 3D Variables
       Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhYTNmZTFhNC1mNDBlLTQ0MGMtOWY5Yi0wODdjNzk4ODRkZWEiLCJpZCI6Mzc5Mzg3LCJpYXQiOjE3Njg1Mjg2OTN9.N_lOlCsyXEE9vkrDpzTqAbBbZpU_jSXF2LQ0ycDKOD4';
@@ -3522,7 +3654,20 @@
       });
 
       // Add 3D toggle button event listener
-      document.getElementById('toggle3DBtn').addEventListener('click', toggle3DMode);
+      document.getElementById('toggle3DBtn').addEventListener('click', async () => {
+        if (typeof toggle3DMode === 'function') {
+          await toggle3DMode();
+        }
+
+        const f2dBtn = document.getElementById('follow2DBtn');
+        const radarBtn = document.getElementById('radarBtn');
+
+        // Hide/Show 2D-specific buttons
+        const displayStyle = is3DMode ? 'none' : 'flex';
+
+        if (f2dBtn) f2dBtn.style.display = displayStyle;
+        if (radarBtn) radarBtn.style.display = displayStyle;
+      });
 
       // Follow Mode Logic
       const followBtn = document.getElementById('followBtn');
@@ -3545,6 +3690,31 @@
           followBtn.style.color = '';
         }
       }
+
+      // Follow Mode 2D Logic
+      const follow2DBtn = document.getElementById('follow2DBtn');
+
+      follow2DBtn.addEventListener('click', () => {
+        isFollowing2D = !isFollowing2D;
+
+        if (isFollowing2D) {
+          follow2DBtn.classList.add('active');
+
+          // Center immediately if we have a marker
+          if (aircraftMarker) {
+            map.panTo(aircraftMarker.getLatLng(), { animate: true });
+          }
+        } else {
+          follow2DBtn.classList.remove('active');
+        }
+      });
+
+      // Maintain center on aircraft after zoom in Follow 2D mode
+      map.on('zoomend', () => {
+        if (isFollowing2D && aircraftMarker) {
+          map.panTo(aircraftMarker.getLatLng(), { animate: true });
+        }
+      });
 
       // Search Button Logic (3D Mode)
       const searchBtn = document.getElementById('searchBtn');
@@ -3576,6 +3746,140 @@
         }
       });
 
+      // Radar Button Logic
+      const radarBtn = document.getElementById('radarBtn');
+      radarBtn.addEventListener('click', () => {
+        radarModeEnabled = !radarModeEnabled;
+
+        if (radarModeEnabled) {
+          radarBtn.classList.add('active');
+          createATCLabel();
+        } else {
+          radarBtn.classList.remove('active');
+          removeATCLabel();
+        }
+      });
+
+      function createATCLabel() {
+        if (!aircraftMarker || !flightPathPoints || flightPathPoints.length === 0) return;
+
+        // Remove existing label if any
+        removeATCLabel();
+
+        // Create the label element
+        atcDataLabel = document.createElement('div');
+        atcDataLabel.className = 'atc-data-label';
+
+        // Get current flight data
+        const currentIndex = parseInt(progressBar.value) || 0;
+        const point = flightPathPoints[currentIndex];
+
+        // Build the label content
+        updateATCLabelContent(currentIndex);
+
+        // Add to map container
+        const mapContainer = document.getElementById('map');
+        mapContainer.appendChild(atcDataLabel);
+
+        // Position it relative to aircraft
+        const aircraftLatLng = aircraftMarker.getLatLng();
+        updateATCLabelPosition(aircraftLatLng);
+      }
+
+      function updateATCLabelContent(index) {
+        if (!atcDataLabel || index < 0 || !flightPathPoints || !flightPathPoints[index]) return;
+
+        const point = flightPathPoints[index];
+
+        // Calculate altitude trend
+        let altTrendArrow = '';
+        if (index > 0) {
+          const prevPoint = flightPathPoints[index - 1];
+          // Use current and previous altitude to determine trend
+          const currentAlt = point.altitudeFeet || 0;
+          const prevAlt = prevPoint.altitudeFeet || 0;
+          const diff = currentAlt - prevAlt;
+
+          if (diff > 0.1) {
+            // Up arrow for climbing
+            altTrendArrow = '^';
+          } else if (diff < -0.1) {
+            // Down arrow for descending
+            altTrendArrow = '⌄';
+          }
+          // If stable (diff close to 0), no arrow is shown
+        }
+
+        // Get aircraft info
+        const callsign = currentAircraftInfo?.callsign || flightName || 'N/A';
+        const acIcao = point.model || currentAircraftInfo?.ACICAOCode || '----';
+        const altitude = Math.round(point.altitudeFeet || 0);
+        const speed = Math.round(point.speed || 0);
+        const departure = currentAircraftInfo?.DepartureAirport || '----';
+        const arrival = currentAircraftInfo?.ArrivalAirport || '----';
+
+        // Format the label exactly as shown in screenshot, with arrow to the left of altitude
+        atcDataLabel.innerHTML = `${callsign} ${acIcao}<br>${altTrendArrow}${altitude} ${speed}<br>${departure} ${arrival}`;
+      }
+
+      function updateATCLabelPosition(latLng) {
+        if (!atcDataLabel || !map) return;
+
+        // Convert lat/lng to pixel coordinates
+        const point = map.latLngToContainerPoint(latLng);
+
+        // Get limits and dimensions
+        const mapContainer = map.getContainer();
+        const mapWidth = mapContainer.clientWidth;
+        const labelWidth = atcDataLabel.offsetWidth || 120; // Default estimate if not measured yet
+
+        // Default position: 30px to the right
+        let leftPos = point.x + 30;
+
+        // Check if it overflows the right edge
+        if (leftPos + labelWidth > mapWidth - 10) {
+          // Flip to left side
+          leftPos = point.x - 30 - labelWidth;
+        }
+
+        atcDataLabel.style.left = leftPos + 'px';
+        atcDataLabel.style.top = (point.y - 10) + 'px';
+      }
+
+      function removeATCLabel() {
+        if (atcDataLabel) {
+          atcDataLabel.remove();
+          atcDataLabel = null;
+        }
+      }
+
+      // Update ATC label position on map move/zoom
+      // We'll add event listeners after map is available
+      // The map variable is accessed globally via window or directly
+      setTimeout(() => {
+        if (typeof map !== 'undefined' && map) {
+          map.on('move', () => {
+            if (radarModeEnabled && atcDataLabel && aircraftMarker) {
+              updateATCLabelPosition(aircraftMarker.getLatLng());
+            }
+          });
+
+          map.on('zoom', () => {
+            if (radarModeEnabled && atcDataLabel && aircraftMarker) {
+              updateATCLabelPosition(aircraftMarker.getLatLng());
+            }
+          });
+
+          // Disable follow mode on manual drag
+          map.on('dragstart', () => {
+            if (isFollowing2D) {
+              isFollowing2D = false;
+              const btn = document.getElementById('follow2DBtn');
+              if (btn) btn.classList.remove('active');
+            }
+          });
+        }
+      }, 1000);
 
 
 
@@ -3642,11 +3946,22 @@
         aircraftMarker.setLatLng([point.lat, point.lng]);
         aircraftMarker.setIcon(createAircraftIcon(point.direction, point.model));
 
-        const bounds = map.getBounds();
-        if (!bounds.contains([point.lat, point.lng])) {
+        // Update ATC data label position if radar mode is enabled
+        if (radarModeEnabled && atcDataLabel) {
+          updateATCLabelPosition([point.lat, point.lng]);
+        }
+
+        // Handle 2D Follow Mode or Bound Check
+        if (isFollowing2D) {
           map.panTo([point.lat, point.lng], { animate: true });
+        } else {
+          const bounds = map.getBounds();
+          if (!bounds.contains([point.lat, point.lng])) {
+            map.panTo([point.lat, point.lng], { animate: true });
+          }
         }
       }
+
 
       let activePointIndex = -1;
 
@@ -3664,6 +3979,11 @@
         altitudeEl.textContent = Math.round(point.altitudeFeet);
         vitesseEl.textContent = Math.round(point.speed);
         directionEl.textContent = Math.round(point.direction);
+
+        // Update ATC label content if radar mode is enabled
+        if (radarModeEnabled && atcDataLabel) {
+          updateATCLabelContent(index);
+        }
       }
 
       function handleSingleFile() {
@@ -3750,6 +4070,9 @@
           map.removeLayer(aircraftMarker);
           aircraftMarker = null;
         }
+
+        // Clear ATC data label
+        removeATCLabel();
 
         const toggleBtn = document.getElementById('toggleGraphBtn');
         if (toggleBtn) toggleBtn.style.display = 'none';
@@ -4228,6 +4551,7 @@
         speedControl.disabled = false;
         progressBar.value = 0;
         updateDisplay(0);
+
         updateAircraftPosition(0);
 
         // Calculate and display flight time
@@ -4246,6 +4570,11 @@
         isKMLFile = flight.isKML || false;
         currentAircraftInfo = flight.aircraftInfo || null;
         displayAircraftInfo(currentAircraftInfo);
+
+        // Ensure ATC label is created if radar mode is active (now that info is ready)
+        if (radarModeEnabled) {
+          createATCLabel();
+        }
 
         // Reset info box slide state to collapsed when switching flights
         infoBoxSlideState = 0;
@@ -4813,6 +5142,8 @@
         const tipBtn = document.getElementById('tipBtn');
         const flightSelectorToggle = document.getElementById('flightSelectorToggle');
         const toggleTracksBtn = document.getElementById('toggleTracksBtn');
+        const radarBtn = document.getElementById('radarBtn');
+        const follow2DBtn = document.getElementById('follow2DBtn');
 
         // Elements to hide (UI elements)
         const elementsToHide = [
@@ -4832,7 +5163,10 @@
           searchBtn,
           tipBtn,
           flightSelectorToggle,
-          toggleTracksBtn
+          toggleTracksBtn,
+          radarBtn,
+          atcDataLabel,
+          follow2DBtn
         ];
 
         // Save initial visibility/display
@@ -4863,32 +5197,101 @@
         });
         if (aircraftMarker) aircraftMarker.getElement().style.display = 'none';
 
+        const brandingBtn = document.getElementById('brandingBtn');
+        const brandingStyles = { backdrop: '', bg: '', shadow: '' };
+        let brandingSvg = null;
+        const svgStyles = { bg: '', shadow: '' };
+
         try {
-          let canvas;
+          if (brandingBtn) {
+            brandingStyles.backdrop = brandingBtn.style.backdropFilter;
+            brandingStyles.bg = brandingBtn.style.background;
+            brandingStyles.shadow = brandingBtn.style.boxShadow;
+
+            brandingBtn.style.backdropFilter = 'none';
+            brandingBtn.style.webkitBackdropFilter = 'none';
+            brandingBtn.style.background = 'transparent';
+            brandingBtn.style.boxShadow = 'none';
+
+            brandingSvg = brandingBtn.querySelector('svg');
+            if (brandingSvg) {
+              svgStyles.bg = brandingSvg.style.background;
+              svgStyles.shadow = brandingSvg.style.boxShadow;
+              brandingSvg.style.background = 'transparent';
+              brandingSvg.style.boxShadow = 'none';
+            }
+          }
+
+          const captureScale = 3; // High quality (3x)
+
           if (is3DMode && viewer) {
+            viewer.resolutionScale = captureScale;
+            viewer.resize();
+            viewer.render();
+          }
+
+          let brandingCanvas = null;
+          let brandingRect = null;
+
+          if (is3DMode && viewer) {
+            // 3D Mode: Capture branding separately for composite
+            if (brandingBtn) {
+              brandingRect = brandingBtn.getBoundingClientRect();
+              brandingCanvas = await html2canvas(brandingBtn, {
+                backgroundColor: null,
+                scale: captureScale,
+                logging: false,
+                useCORS: true
+              });
+            }
+
             // Capture 3D Cesium view
-            // Cesium renders to a canvas, we can use its render method
             viewer.render();
             const cesiumCanvas = viewer.scene.canvas;
 
-            // Create a new canvas to copy the Cesium canvas
             canvas = document.createElement('canvas');
             canvas.width = cesiumCanvas.width;
             canvas.height = cesiumCanvas.height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(cesiumCanvas, 0, 0);
+
+            // Composite branding for 3D
+            if (brandingCanvas && brandingRect) {
+              const winW = window.innerWidth;
+              const winH = window.innerHeight;
+              const rect = brandingRect;
+
+              const isRight = (rect.left + rect.width / 2) > (winW / 2);
+              const isBottom = (rect.top + rect.height / 2) > (winH / 2);
+
+              let drawX, drawY;
+
+              if (isRight) {
+                const marginR = winW - rect.right;
+                drawX = canvas.width - brandingCanvas.width - (marginR * captureScale);
+              } else {
+                drawX = rect.left * captureScale;
+              }
+
+              if (isBottom) {
+                const marginB = winH - rect.bottom;
+                drawY = canvas.height - brandingCanvas.height - (marginB * captureScale);
+              } else {
+                drawY = rect.top * captureScale;
+              }
+
+              ctx.drawImage(brandingCanvas, drawX, drawY);
+            }
           } else {
-            // Capture 2D map view
-            canvas = await html2canvas(document.getElementById('map'), {
+            // 2D Mode: Capture full body (includes map + branding overlays)
+            // Branding styles are stripped so it renders clean on top of map
+            canvas = await html2canvas(document.body, {
               useCORS: true,
               allowTaint: false,
-              backgroundColor: '#262626', // Match map background
               logging: false,
-              scale: 2,
-              ignoreElements: (element) => {
-                // Further protect against any lingering UI elements inside map container if any
-                return element.classList.contains('leaflet-control-container');
-              }
+              scale: captureScale,
+              scrollX: 0,
+              scrollY: 0
             });
           }
 
@@ -4900,6 +5303,18 @@
           console.error('Screenshot failed:', error);
           alert('Failed to take screenshot.');
         } finally {
+          // Restore branding styles
+          if (brandingBtn) {
+            brandingBtn.style.backdropFilter = brandingStyles.backdrop;
+            brandingBtn.style.webkitBackdropFilter = brandingStyles.backdrop;
+            brandingBtn.style.background = brandingStyles.bg;
+            brandingBtn.style.boxShadow = brandingStyles.shadow;
+          }
+          if (brandingSvg) {
+            brandingSvg.style.background = svgStyles.bg;
+            brandingSvg.style.boxShadow = svgStyles.shadow;
+          }
+
           // Restore UI elements
           elementsToHide.forEach((el, i) => {
             if (el) el.style.visibility = originalVisibility[i];
@@ -4908,6 +5323,13 @@
           // Restore Cesium UI elements
           if (cesiumToolbar) cesiumToolbar.style.visibility = '';
           if (cesiumGeocoder) cesiumGeocoder.style.visibility = '';
+
+          // Restore 3D resolution
+          if (is3DMode && viewer) {
+            viewer.resolutionScale = window.devicePixelRatio || 1;
+            viewer.resize();
+            viewer.render();
+          }
 
           // Restore takeoff/landing pins, aircraft marker, and shadows
           if (shadowPane) shadowPane.style.display = '';
