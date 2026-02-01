@@ -166,7 +166,7 @@
 
     #screenshotBtn {
       position: absolute;
-      top: 140px;
+      top: 380px;
       right: 12px;
       z-index: 1001;
       padding: 10px;
@@ -189,7 +189,7 @@
 
     #tipBtn {
       position: absolute;
-      top: 200px;
+      top: 320px;
       right: 12px;
       z-index: 1001;
       padding: 0;
@@ -245,9 +245,11 @@
       /* Collapse space to keep icon centered */
     }
 
-    #tipBtn:hover {
-      transform: scale(1.05);
-      background-color: var(--button-hover);
+    @media (hover: hover) {
+      #tipBtn:hover {
+        transform: scale(1.05);
+        background-color: var(--button-hover);
+      }
     }
 
     #layerBtn {
@@ -273,14 +275,16 @@
       height: 44px;
     }
 
-    #layerBtn:hover {
-      transform: scale(1.1);
-      background-color: var(--button-hover);
+    @media (hover: hover) {
+      #layerBtn:hover {
+        transform: scale(1.1);
+        background-color: var(--button-hover);
+      }
     }
 
     #infoBtn {
       position: absolute;
-      top: 260px;
+      top: 500px;
       right: 12px;
       z-index: 1001;
       padding: 10px;
@@ -301,9 +305,11 @@
       height: 44px;
     }
 
-    #infoBtn:hover {
-      transform: scale(1.1);
-      background-color: var(--button-hover);
+    @media (hover: hover) {
+      #infoBtn:hover {
+        transform: scale(1.1);
+        background-color: var(--button-hover);
+      }
     }
 
     #layer3DBtn {
@@ -329,40 +335,14 @@
       height: 44px;
     }
 
-    #layer3DBtn:hover {
-      transform: scale(1.1);
-      background-color: var(--button-hover);
+    @media (hover: hover) {
+      #layer3DBtn:hover {
+        transform: scale(1.1);
+        background-color: var(--button-hover);
+      }
     }
 
     #searchBtn {
-      position: absolute;
-      top: 380px;
-      right: 12px;
-      z-index: 1001;
-      padding: 10px;
-      background-color: var(--glass-bg);
-      color: var(--text-main);
-      border-radius: 50%;
-      border: 1px solid var(--glass-border);
-      cursor: pointer;
-      font-size: 1.2rem;
-      box-shadow: 0 4px 6px var(--shadow-color);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 44px;
-      height: 44px;
-    }
-
-    #searchBtn:hover {
-      transform: scale(1.1);
-      background-color: var(--button-hover);
-    }
-
-    #debugBtn {
       position: absolute;
       top: 440px;
       right: 12px;
@@ -385,9 +365,41 @@
       height: 44px;
     }
 
-    #debugBtn:hover {
-      transform: scale(1.1);
-      background-color: var(--button-hover);
+    @media (hover: hover) {
+      #searchBtn:hover {
+        transform: scale(1.1);
+        background-color: var(--button-hover);
+      }
+    }
+
+    #debugBtn {
+      position: absolute;
+      top: 440px;
+      left: 12px;
+      z-index: 1001;
+      padding: 10px;
+      background-color: var(--glass-bg);
+      color: var(--text-main);
+      border-radius: 50%;
+      border: 1px solid var(--glass-border);
+      cursor: pointer;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 6px var(--shadow-color);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+    }
+
+    @media (hover: hover) {
+      #debugBtn:hover {
+        transform: scale(1.1);
+        background-color: var(--button-hover);
+      }
     }
 
     #debugBtn.active {
@@ -438,6 +450,41 @@
       border-top: 1px solid rgba(255, 0, 0, 0.2);
     }
 
+    #trueTimeBtn {
+      position: absolute;
+      top: 260px;
+      right: 12px;
+      z-index: 1001;
+      padding: 10px;
+      background-color: var(--glass-bg);
+      color: var(--text-main);
+      border-radius: 50%;
+      border: 1px solid var(--glass-border);
+      cursor: pointer;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 6px var(--shadow-color);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+    }
+
+    #trueTimeBtn.active {
+      background-color: var(--accent-color);
+      color: white;
+    }
+
+    @media (hover: hover) {
+      #trueTimeBtn:hover {
+        transform: scale(1.1);
+        background-color: var(--button-hover);
+      }
+    }
+
     /* 3D Container */
     #cesiumContainer {
       position: absolute;
@@ -474,14 +521,16 @@
       height: 44px;
     }
 
-    #toggle3DBtn:hover {
-      transform: scale(1.1);
-      background-color: var(--button-hover);
+    @media (hover: hover) {
+      #toggle3DBtn:hover {
+        transform: scale(1.1);
+        background-color: var(--button-hover);
+      }
     }
 
     #followBtn {
       position: absolute;
-      top: 320px;
+      top: 140px;
       right: 12px;
       z-index: 1001;
       padding: 10px;
@@ -509,9 +558,11 @@
       color: white;
     }
 
-    #followBtn:hover {
-      transform: scale(1.1);
-      background-color: var(--button-hover);
+    @media (hover: hover) {
+      #followBtn:hover {
+        transform: scale(1.1);
+        background-color: var(--button-hover);
+      }
     }
 
     #toggleTracksBtn {
@@ -545,16 +596,18 @@
       color: white;
     }
 
-    #toggleTracksBtn:hover {
-      transform: scale(1.1);
-      background-color: var(--button-hover);
+    @media (hover: hover) {
+      #toggleTracksBtn:hover {
+        transform: scale(1.1);
+        background-color: var(--button-hover);
+      }
     }
 
     /* Radar Button */
     #radarBtn {
       position: absolute;
-      top: 190px;
-      left: 12px;
+      top: 200px;
+      right: 12px;
       z-index: 1001;
       padding: 10px;
       background-color: var(--glass-bg);
@@ -579,14 +632,16 @@
       color: white;
     }
 
-    #radarBtn:hover {
-      transform: scale(1.1);
-      background-color: var(--button-hover);
+    @media (hover: hover) {
+      #radarBtn:hover {
+        transform: scale(1.1);
+        background-color: var(--button-hover);
+      }
     }
 
     /* ATC Data Label */
     .atc-data-label {
-      font-family: 'Calibri';
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       position: absolute;
       color: #ffffff;
       font-size: 16px;
@@ -600,15 +655,17 @@
       paint-order: stroke fill;
     }
 
-    .atc-data-label.cesium-label {
-      /* For 3D mode styling if needed */
-      background-color: rgba(0, 40, 100, 0.9);
+    @media only screen and (max-width: 768px) {
+      .atc-data-label {
+        font-size: 12px;
+        -webkit-text-stroke: 1px black;
+      }
     }
 
     #follow2DBtn {
       position: absolute;
-      top: 250px;
-      left: 12px;
+      top: 140px;
+      right: 12px;
       z-index: 1001;
       padding: 10px;
       background-color: var(--glass-bg);
@@ -633,9 +690,11 @@
       color: white;
     }
 
-    #follow2DBtn:hover {
-      transform: scale(1.1);
-      background-color: var(--button-hover);
+    @media (hover: hover) {
+      #follow2DBtn:hover {
+        transform: scale(1.1);
+        background-color: var(--button-hover);
+      }
     }
 
     /* Hide Cesium's default UI elements */
@@ -695,7 +754,7 @@
       font-size: 0.9rem !important;
       box-shadow: 0 4px 6px var(--shadow-color) !important;
       transition: all 0.3s ease !important;
-      width: 300px !important;
+      width: 270px !important;
     }
 
     .cesium-geocoder-input:focus {
@@ -714,13 +773,16 @@
       border: none !important;
       color: var(--text-main) !important;
       right: 8px !important;
+      width: 18px;
       top: 50% !important;
       transform: translateY(-50%) !important;
     }
 
-    .cesium-geocoder-searchButton:hover {
-      background-color: var(--button-hover) !important;
-      border-radius: 50% !important;
+    @media (hover: hover) {
+      .cesium-geocoder-searchButton:hover {
+        background-color: var(--button-hover) !important;
+        border-radius: 50% !important;
+      }
     }
 
     .cesium-geocoder-suggestions {
@@ -745,9 +807,14 @@
       border-bottom: none !important;
     }
 
-    .cesium-geocoder-suggestion:hover,
     .cesium-geocoder-suggestion-selected {
       background-color: var(--button-hover) !important;
+    }
+
+    @media (hover: hover) {
+      .cesium-geocoder-suggestion:hover {
+        background-color: var(--button-hover) !important;
+      }
     }
 
 
@@ -804,9 +871,11 @@
       transition: opacity 0.2s;
     }
 
-    .info-email:hover {
-      opacity: 0.8;
-      text-decoration: underline;
+    @media (hover: hover) {
+      .info-email:hover {
+        opacity: 0.8;
+        text-decoration: underline;
+      }
     }
 
     .info-subtext {
@@ -933,8 +1002,10 @@
       transition: all 0.2s;
     }
 
-    #errorModal button:hover {
-      background: var(--button-hover);
+    @media (hover: hover) {
+      #errorModal button:hover {
+        background: var(--button-hover);
+      }
     }
 
     #layerModal h3 {
@@ -961,8 +1032,10 @@
       font-family: inherit;
     }
 
-    .layer-option:hover {
-      background: rgba(255, 255, 255, 0.2);
+    @media (hover: hover) {
+      .layer-option:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
     }
 
     .layer-option.active {
@@ -976,15 +1049,19 @@
       display: none !important;
     }
 
-    #screenshotBtn:hover {
-      transform: scale(1.1);
-      background-color: var(--button-hover);
+    @media (hover: hover) {
+      #screenshotBtn:hover {
+        transform: scale(1.1);
+        background-color: var(--button-hover);
+      }
     }
 
-    #toggleMarkersBtn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 8px var(--shadow-color);
-      background-color: var(--button-hover);
+    @media (hover: hover) {
+      #toggleMarkersBtn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 8px var(--shadow-color);
+        background-color: var(--button-hover);
+      }
     }
 
     #map {
@@ -1081,8 +1158,10 @@
       transition: background 0.2s;
     }
 
-    .playback-controls button:hover {
-      background: var(--button-hover);
+    @media (hover: hover) {
+      .playback-controls button:hover {
+        background: var(--button-hover);
+      }
     }
 
     .progress-container {
@@ -1583,8 +1662,10 @@
       height: 44px;
     }
 
-    #flightSelectorToggle:hover {
-      background: var(--button-hover);
+    @media (hover: hover) {
+      #flightSelectorToggle:hover {
+        background: var(--button-hover);
+      }
     }
 
     #flightSelectorToggle span {
@@ -1607,8 +1688,10 @@
       margin-bottom: 2px;
     }
 
-    .flight-item:hover {
-      background-color: var(--flight-hover);
+    @media (hover: hover) {
+      .flight-item:hover {
+        background-color: var(--flight-hover);
+      }
     }
 
     .flight-item.active {
@@ -1927,11 +2010,13 @@
       margin: 0 !important;
     }
 
-    .leaflet-control-zoom a:hover {
-      background-color: var(--button-hover) !important;
-      color: var(--text-main) !important;
-      transform: none !important;
-      /* Disable scale to keep pill shape intact */
+    @media (hover: hover) {
+      .leaflet-control-zoom a:hover {
+        background-color: var(--button-hover) !important;
+        color: var(--text-main) !important;
+        transform: none !important;
+        /* Disable scale to keep pill shape intact */
+      }
     }
 
     /* Standard Order: Plus (In) Top, Minus (Out) Bottom */
@@ -2128,6 +2213,13 @@
       <line x1="16" y1="14" x2="16" y2="17"></line>
     </svg>
   </button>
+  <button id="trueTimeBtn" title="Toggle TrueTime (Real-time Playback)">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <polyline points="12 6 12 12 16 14"></polyline>
+    </svg>
+  </button>
   <div id="debugStats">
     <div class="debug-header">-DEV DEBUG-</div>
     <div class="debug-body">
@@ -2239,14 +2331,18 @@
   <button id="radarBtn" title="Toggle ATC Radar Data">
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
       stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <!-- Radar screen circle -->
-      <circle cx="12" cy="12" r="9"></circle>
-      <!-- Radar sweep line -->
-      <path d="M12 3 L12 12"></path>
-      <!-- Radar blips -->
-      <circle cx="15" cy="9" r="1.5" fill="currentColor"></circle>
-      <circle cx="9" cy="14" r="1.5" fill="currentColor"></circle>
-      <circle cx="16" cy="15" r="1.5" fill="currentColor"></circle>
+      <!-- Outer ring -->
+      <circle cx="12" cy="12" r="10" />
+      <!-- Inner ring -->
+      <circle cx="12" cy="12" r="4" stroke-opacity="0.3" />
+      <!-- Crosshairs -->
+      <line x1="12" y1="2" x2="12" y2="22" stroke-opacity="0.3" />
+      <line x1="2" y1="12" x2="22" y2="12" stroke-opacity="0.3" />
+      <!-- Sweep Line -->
+      <line x1="12" y1="12" x2="19.07" y2="4.93" />
+      <!-- Blips -->
+      <circle cx="15.5" cy="8.5" r="1.5" fill="currentColor" stroke="none" />
+      <circle cx="8" cy="14" r="1.5" fill="currentColor" stroke="none" />
     </svg>
   </button>
   <button id="follow2DBtn" title="Toggle Follow 2D Mode">
@@ -2407,6 +2503,13 @@
       let radarModeEnabled = false;
       let atcDataLabel = null;
       let isFollowing2D = false;
+
+      // TrueTime Mode Variables
+      let isTrueTimeMode = false;
+      let trueTimeAnimationFrame = null;
+      let isUserScrubbing = false;
+      let currentSimulatedTime = 0;
+      let simulationLastFrameTime = 0;
 
       // Cesium 3D Variables
       Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhYTNmZTFhNC1mNDBlLTQ0MGMtOWY5Yi0wODdjNzk4ODRkZWEiLCJpZCI6Mzc5Mzg3LCJpYXQiOjE3Njg1Mjg2OTN9.N_lOlCsyXEE9vkrDpzTqAbBbZpU_jSXF2LQ0ycDKOD4';
@@ -3561,6 +3664,7 @@
 
       const errorModal = document.createElement('div');
       errorModal.id = 'errorModal';
+      // Initial content - will be updated dynamically
       errorModal.innerHTML = `
       <h3>File Format Error</h3>
       <p>One or more files format not supported.<br>Please use files from FlightRadar24 output.</p>
@@ -3575,15 +3679,32 @@
         if (multiFileInput) multiFileInput.value = '';
       }
 
+      // Initial binding (will be rebound if innerHTML changes)
       document.getElementById('errorOkBtn').addEventListener('click', closeErrorPopup);
-      // Also close on overlay click?
-      // errorOverlay.addEventListener('click', closeErrorPopup);
 
-      function showErrorPopup() {
+      function showErrorPopup(failedFiles = []) {
         document.getElementById('errorOverlay').style.display = 'block';
-        document.getElementById('errorModal').style.display = 'block';
-        // Also reset input immediately so if they cancel/close, it's ready
-        if (multiFileInput) multiFileInput.value = '';
+        const modal = document.getElementById('errorModal');
+        modal.style.display = 'block';
+
+        let msg = '<p>One or more files format not supported.<br>Please use files from FlightRadar24 output.</p>';
+        if (failedFiles && failedFiles.length > 0) {
+          msg += '<div style="margin-top:10px; max-height:150px; overflow-y:auto; font-size:0.85em; color:var(--text-secondary); text-align:left; background:var(--button-bg); padding:10px; border-radius:8px; border: 1px solid var(--button-border);">';
+          msg += '<strong style="color:var(--text-main);">Unsupported files:</strong><br>';
+          failedFiles.forEach(f => {
+            msg += `<div style="margin-top:4px; word-break:break-all;">• ${f}</div>`;
+          });
+          msg += '</div>';
+        }
+
+        modal.innerHTML = `
+          <h3>File Format Error</h3>
+          ${msg}
+          <button id="errorOkBtn" style="margin-top:15px;">OK</button>
+        `;
+
+        // Re-bind event listener
+        document.getElementById('errorOkBtn').addEventListener('click', closeErrorPopup);
 
         // Reset main button text
         const btn = document.getElementById('multi_file_button');
@@ -3626,6 +3747,8 @@
         5,    // 200x
         3.33  // 300x
       ];
+
+      const speedMultipliers = [1, 2, 4, 8, 20, 40, 100, 200, 300];
 
       const speedLabels = [
         "1x", "2x", "4x", "8x", "20x", "40x", "100x", "200x", "300x"
@@ -3709,6 +3832,60 @@
         }
       });
 
+      // TrueTime Button Logic
+      const trueTimeBtn = document.getElementById('trueTimeBtn');
+      trueTimeBtn.addEventListener('click', () => {
+        isTrueTimeMode = !isTrueTimeMode;
+
+        if (isTrueTimeMode) {
+          trueTimeBtn.classList.add('active');
+          // speedControl.disabled = true; // No longer disabling speed control
+        } else {
+          trueTimeBtn.classList.remove('active');
+          // speedControl.disabled = false;
+        }
+
+        // Restart playback if playing to apply new mode
+        if (isPlaying) {
+          pauseFlight();
+          playFlight();
+        }
+      });
+
+      // Scrubbing Logic (Consolidated)
+      progressBar.addEventListener('mousedown', () => isUserScrubbing = true);
+      progressBar.addEventListener('touchstart', () => isUserScrubbing = true);
+
+      progressBar.addEventListener('mouseup', () => isUserScrubbing = false);
+      progressBar.addEventListener('touchend', () => isUserScrubbing = false);
+
+      progressBar.addEventListener('input', function () {
+        const val = parseFloat(this.value);
+        const indexFloor = Math.floor(val);
+
+        if (flightPathPoints && flightPathPoints[indexFloor]) {
+          // Interpolate time based on slider float value
+          const fraction = val - indexFloor;
+          const indexCeil = Math.min(indexFloor + 1, flightPathPoints.length - 1);
+
+          let t = 0;
+          if (flightPathPoints[indexFloor] && flightPathPoints[indexCeil]) {
+            t = flightPathPoints[indexFloor].rawUnix + (flightPathPoints[indexCeil].rawUnix - flightPathPoints[indexFloor].rawUnix) * fraction;
+          } else {
+            t = flightPathPoints[indexFloor].rawUnix;
+          }
+
+          // Update simulation time immediately
+          currentSimulatedTime = t;
+
+          // Visual update if paused
+          if (!isPlaying) {
+            updateDisplay(indexFloor);
+            updateAircraftPosition(indexFloor);
+          }
+        }
+      });
+
       // Maintain center on aircraft after zoom in Follow 2D mode
       map.on('zoomend', () => {
         if (isFollowing2D && aircraftMarker) {
@@ -3786,28 +3963,22 @@
         updateATCLabelPosition(aircraftLatLng);
       }
 
-      function updateATCLabelContent(index) {
+      function updateATCLabelContent(index, pointOverride = null) {
         if (!atcDataLabel || index < 0 || !flightPathPoints || !flightPathPoints[index]) return;
 
-        const point = flightPathPoints[index];
+        // Use interpolated point if available, otherwise array point
+        const point = pointOverride || flightPathPoints[index];
+        const prevPoint = (index > 0) ? flightPathPoints[index - 1] : point; // Fallback
 
         // Calculate altitude trend
         let altTrendArrow = '';
-        if (index > 0) {
-          const prevPoint = flightPathPoints[index - 1];
-          // Use current and previous altitude to determine trend
-          const currentAlt = point.altitudeFeet || 0;
-          const prevAlt = prevPoint.altitudeFeet || 0;
-          const diff = currentAlt - prevAlt;
-
-          if (diff > 0.1) {
-            // Up arrow for climbing
-            altTrendArrow = '^';
-          } else if (diff < -0.1) {
-            // Down arrow for descending
-            altTrendArrow = '⌄';
-          }
-          // If stable (diff close to 0), no arrow is shown
+        if (pointOverride && pointOverride.trend !== undefined) {
+          altTrendArrow = pointOverride.trend;
+        } else if (index > 0) {
+          const pPrev = flightPathPoints[index - 1];
+          const diff = point.altitudeFeet - pPrev.altitudeFeet;
+          if (diff > 0.1) altTrendArrow = '^';
+          else if (diff < -0.1) altTrendArrow = '⌄';
         }
 
         // Get aircraft info
@@ -3908,27 +4079,167 @@
           // Handle 3D mode playback
           if (is3DMode && viewer) {
             viewer.clock.shouldAnimate = true;
-            viewer.clock.multiplier = getSpeedMultiplier();
+            // Use multiplier for 3D as well
+            const speedIdx = parseInt(speedControl.value) || 0;
+            const speedMult = speedMultipliers[speedIdx] || 1;
+
+            viewer.clock.multiplier = isTrueTimeMode ? (1.0 * speedMult) : getSpeedMultiplier();
           } else {
             // 2D mode playback
-            playbackInterval = setInterval(() => {
-              let currentIndex = parseInt(progressBar.value);
-              if (currentIndex >= flightPathPoints.length - 1) {
-                pauseFlight();
-                updatePlayPauseButton();
-                return;
+            if (isTrueTimeMode) {
+              const startIdx = parseInt(progressBar.value);
+              const startPoint = flightPathPoints[startIdx] || flightPathPoints[0];
+
+              // Only reset simulation time if we just entered TrueTime or switched tracks,
+              // but here we are IN the playFlight function, which restarts the loop.
+              // If scrubbing, we want to continue from current time.
+
+              // If we are "resuming" play, currentSimulatedTime should match current slider
+              // If we are "resuming" play, currentSimulatedTime should match current slider
+              currentSimulatedTime = startPoint ? startPoint.rawUnix : 0;
+              simulationLastFrameTime = performance.now();
+
+              function animate() {
+                if (!isPlaying || !isTrueTimeMode) return;
+
+                const now = performance.now();
+                let dt = (now - simulationLastFrameTime) / 1000; // Seconds elapsed
+
+                // Safety cap on dt to prevent massive jumps if tab was inactive or paused for long time
+                if (dt > 1.0) dt = 0.1;
+
+                simulationLastFrameTime = now;
+
+                // Get current speed multiplier
+                const speedIdx = parseInt(speedControl.value) || 0;
+                const speedMult = speedMultipliers[speedIdx] || 1;
+
+                // Advance simulation time ONLY if not scrubbing
+                if (!isUserScrubbing) {
+                  currentSimulatedTime += dt * speedMult;
+                } else {
+                  // Update lastFrameTime so when we release, we don't jump
+                  // Also keep currentSimulatedTime in sync with slider is handled by input listener
+                  // But we might want to "play through" the scrub if user wants? 
+                  // Usually "scrubbing while playing" means we override the time.
+                  // The "input" listener sets currentSimulatedTime.
+                }
+
+                // Find updated index based on simulation time
+                let i = parseInt(progressBar.value);
+
+                // If we scrubbed, i matches currentSimulatedTime roughly
+                if (i >= flightPathPoints.length) i = flightPathPoints.length - 1;
+
+                // Re-sync index to time:
+                // Check if currentSimulatedTime is within current segment [i, i+1]
+                // If not, find the correct segment
+
+                // Optimization: Search near i
+                // If time is before current i, move back
+                while (i > 0 && flightPathPoints[i].rawUnix > currentSimulatedTime) {
+                  i--;
+                }
+                // If time is after next point, move forward
+                while (i < flightPathPoints.length - 1 && flightPathPoints[i + 1].rawUnix < currentSimulatedTime) {
+                  i++;
+                }
+
+                if (i >= flightPathPoints.length - 1) {
+                  pauseFlight();
+                  updatePlayPauseButton();
+                  progressBar.value = flightPathPoints.length - 1;
+                  return;
+                }
+
+                // Interpolate
+                const p1 = flightPathPoints[i];
+                const p2 = flightPathPoints[i + 1];
+
+                let ratio = 0;
+                if (p2.rawUnix > p1.rawUnix) {
+                  ratio = (currentSimulatedTime - p1.rawUnix) / (p2.rawUnix - p1.rawUnix);
+                }
+                ratio = Math.max(0, Math.min(1, ratio));
+
+                const lat = p1.lat + (p2.lat - p1.lat) * ratio;
+                const lng = p1.lng + (p2.lng - p1.lng) * ratio;
+                const alt = p1.altitudeFeet + (p2.altitudeFeet - p1.altitudeFeet) * ratio;
+                const spd = p1.speed + (p2.speed - p1.speed) * ratio;
+
+                // Determine Altitude Trend for Arrow
+                let trendArrow = '';
+                const altDiff = p2.altitudeFeet - p1.altitudeFeet;
+
+                // Threshold to avoid flickering on flat flight (lowered to 0.1 for sensitivity)
+                if (altDiff > 0.1) trendArrow = '^';
+                else if (altDiff < -0.1) trendArrow = '⌄';
+
+                // Heading interpolation
+                let d1 = p1.direction;
+                let d2 = p2.direction;
+                let diff = d2 - d1;
+                if (diff > 180) diff -= 360;
+                if (diff < -180) diff += 360;
+                const hdg = (d1 + diff * ratio + 360) % 360;
+
+                const interpolatedPoint = {
+                  lat: lat,
+                  lng: lng,
+                  altitudeFeet: alt,
+                  speed: spd,
+                  direction: hdg,
+                  model: p1.model,
+                  time: p1.time,
+                  utcTime: p1.utcTime,
+                  trend: trendArrow // Pass trend to updateATCLabelContent
+                };
+
+                updateAircraftPositionData(interpolatedPoint);
+                updateDisplayData(interpolatedPoint, i);
+
+                // Update slider only if user is NOT scrubbing
+                if (!isUserScrubbing) {
+                  // Update slider with float value for smooth motion
+                  progressBar.value = i + ratio;
+                }
+
+                trueTimeAnimationFrame = requestAnimationFrame(animate);
               }
-              currentIndex++;
-              progressBar.value = currentIndex;
-              updateDisplay(currentIndex);
-              updateAircraftPosition(currentIndex);
-            }, playbackSpeed);
+              trueTimeAnimationFrame = requestAnimationFrame(animate);
+
+            } else {
+              playbackInterval = setInterval(() => {
+                let currentIndex = parseInt(progressBar.value);
+
+                if (currentIndex >= flightPathPoints.length - 1) {
+                  pauseFlight();
+                  updatePlayPauseButton();
+                  return;
+                }
+
+                if (!isUserScrubbing) {
+                  currentIndex++;
+                  progressBar.value = currentIndex;
+                  updateDisplay(currentIndex);
+                  updateAircraftPosition(currentIndex);
+                } else {
+                  // Just update display for interactivity
+                  updateDisplay(currentIndex);
+                  updateAircraftPosition(currentIndex);
+                }
+              }, playbackSpeed);
+            }
           }
         }
       }
 
       function pauseFlight() {
         clearInterval(playbackInterval);
+        if (trueTimeAnimationFrame) {
+          cancelAnimationFrame(trueTimeAnimationFrame);
+          trueTimeAnimationFrame = null;
+        }
         isPlaying = false;
 
         // Pause 3D mode if active
@@ -3939,9 +4250,12 @@
 
 
       function updateAircraftPosition(index) {
-        if (!flightPathPoints || !aircraftMarker || index >= flightPathPoints.length) return;
+        if (!flightPathPoints || index >= flightPathPoints.length) return;
+        updateAircraftPositionData(flightPathPoints[index]);
+      }
 
-        const point = flightPathPoints[index];
+      function updateAircraftPositionData(point) {
+        if (!point || !aircraftMarker) return;
 
         aircraftMarker.setLatLng([point.lat, point.lng]);
         aircraftMarker.setIcon(createAircraftIcon(point.direction, point.model));
@@ -3966,11 +4280,28 @@
       let activePointIndex = -1;
 
       function updateDisplay(index) {
-        const point = flightPathPoints[index];
+        if (!flightPathPoints || index >= flightPathPoints.length) return;
+        updateDisplayData(flightPathPoints[index], index);
+      }
+
+      function updateDisplayData(point, index = -1) {
         if (!point) return;
 
-        activePointIndex = index;
-        if (chartInstance) {
+        if (index >= 0) {
+          activePointIndex = index;
+        }
+
+        if (chartInstance && index >= 0) {
+          // Drawing chart every frame might be expensive in TrueTime mode,
+          // so maybe only if index changed?
+          // For now keep as is, but in interpolation loop, we are calling this frequently.
+          // chartInstance.draw() moves the vertical line.
+          // We can optimize to only draw if index changed.
+          if (activePointIndex !== -1) {
+            // We need to update the annotation line on the chart
+            // Since chart annotation uses 'value' which is usually index or time
+            // If we use index for x-axis, we need the integer index.
+          }
           chartInstance.draw();
         }
 
@@ -3981,8 +4312,8 @@
         directionEl.textContent = Math.round(point.direction);
 
         // Update ATC label content if radar mode is enabled
-        if (radarModeEnabled && atcDataLabel) {
-          updateATCLabelContent(index);
+        if (radarModeEnabled && atcDataLabel && index >= 0) {
+          updateATCLabelContent(index, point); // Pass point as override
         }
       }
 
@@ -3992,16 +4323,27 @@
         // The current UI uses #multiCsvFiles for everything.
         // But preserving this just in case logic is shared.
         const file = multiFileInput.files[0];
+        const loadingOverlay = document.getElementById('loadingOverlay');
+
         if (file) {
+          if (loadingOverlay) loadingOverlay.style.display = 'flex';
+
           clearAllFlights();
           flightSelector.style.display = 'none';
           const flightToggleBtn = document.getElementById('flightSelectorToggle');
           if (flightToggleBtn) flightToggleBtn.style.display = 'none';
 
+          const onComplete = (success, fileName) => {
+            if (loadingOverlay) loadingOverlay.style.display = 'none';
+            if (!success) {
+              showErrorPopup([fileName]);
+            }
+          };
+
           if (file.name.toLowerCase().endsWith('.kml')) {
-            processKMLFile(file, 0, true);
+            processKMLFile(file, 0, true, onComplete);
           } else {
-            processCSVFile(file, 0, true);
+            processCSVFile(file, 0, true, onComplete);
           }
         }
       }
@@ -4014,30 +4356,55 @@
         if (files.length > 0) {
           if (loadingOverlay) loadingOverlay.style.display = 'flex';
 
-          // Small timeout to allow UI to render the loading overlay before heavy processing starts
           setTimeout(() => {
             clearAllFlights();
             flightSelector.innerHTML = '';
 
             const isSingleFile = files.length === 1;
+            let processedCount = 0;
+            const failedFiles = [];
+            const totalFiles = files.length;
+
+            const onComplete = (success, fileName) => {
+              processedCount++;
+              if (!success && fileName) {
+                failedFiles.push(fileName);
+              }
+
+              if (processedCount === totalFiles) {
+                // All finished
+                if (loadingOverlay) loadingOverlay.style.display = 'none';
+
+                // Manage toggle button visibility based on success count
+                const successCount = allFlights.filter(f => f).length;
+
+                if (flightToggleBtn) {
+                  flightToggleBtn.style.display = (!isSingleFile && successCount > 0) ? 'flex' : 'none';
+                }
+                flightSelectorContainer.style.display = (!isSingleFile && successCount > 0) ? 'flex' : 'none';
+
+                // Ensure menu starts collapsed (hidden) when loading new files
+                if (!isSingleFile && successCount > 0) {
+                  flightSelectorContainer.classList.add('collapsed');
+                }
+
+                // Show error if any failures
+                if (failedFiles.length > 0) {
+                  showErrorPopup(failedFiles);
+                } else if (successCount === 0) {
+                  // Fallback if generic failure
+                  showErrorPopup();
+                }
+              }
+            };
 
             for (let i = 0; i < files.length; i++) {
               const file = files[i];
               if (file.name.toLowerCase().endsWith('.kml')) {
-                processKMLFile(file, i, isSingleFile);
+                processKMLFile(file, i, isSingleFile, onComplete);
               } else {
-                processCSVFile(file, i, isSingleFile);
+                processCSVFile(file, i, isSingleFile, onComplete);
               }
-            }
-
-            if (flightToggleBtn) {
-              flightToggleBtn.style.display = !isSingleFile ? 'flex' : 'none';
-            }
-            flightSelectorContainer.style.display = !isSingleFile ? 'flex' : 'none';
-
-            // Ensure menu starts collapsed (hidden) when loading new files
-            if (!isSingleFile) {
-              flightSelectorContainer.classList.add('collapsed');
             }
           }, 50);
 
@@ -4121,215 +4488,239 @@
         updateToggleTracksButton();
       }
 
-      function processKMLFile(file, index, isSingleFile) {
+      function processKMLFile(file, index, isSingleFile, onComplete) {
         const reader = new FileReader();
         reader.onload = function (e) {
-          const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(e.target.result, "text/xml");
-          const flightPoints = [];
-          const flightSegments = [];
+          try {
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(e.target.result, "text/xml");
 
-          // Extract Flight Name (try Document name, or Filename)
-          let flightName = file.name.replace('.kml', '');
-          const docName = xmlDoc.querySelector('Document > name');
-          if (docName && docName.textContent) {
-            flightName = docName.textContent;
-          }
-
-          // Extract Aircraft Model from Document description (applies to entire flight)
-          let aircraftModel = null;
-          let aircraftInfo = null;
-          const docDescription = xmlDoc.querySelector('Document > description');
-          if (docDescription) {
-            const docHtmlContent = docDescription.textContent;
-            // Look for "Aircraft<span...>(MODEL)</span>"
-            const modelMatch = docHtmlContent.match(/Aircraft.*?\((\w+)\)/);
-            if (modelMatch) {
-              aircraftModel = modelMatch[1];
+            // Check for parse error
+            const parseError = xmlDoc.querySelector("parsererror");
+            if (parseError) {
+              throw new Error("KML Parse Error");
             }
 
-            // Parse aircraft information from KML
-            aircraftInfo = parseKMLAircraftInfo(e.target.result);
-          }
+            const flightPoints = [];
+            const flightSegments = [];
 
-          // Find all Placemarks that look like track points (have TimeStamp)
-          const placemarks = xmlDoc.querySelectorAll('Placemark');
+            // Extract Flight Name (try Document name, or Filename)
+            let flightName = file.name.replace('.kml', '');
+            const docName = xmlDoc.querySelector('Document > name');
+            if (docName && docName.textContent) {
+              flightName = docName.textContent;
+            }
 
-          placemarks.forEach(pm => {
-            const timestampNode = pm.querySelector('TimeStamp > when');
-            const pointNode = pm.querySelector('Point > coordinates');
-            const descriptionNode = pm.querySelector('description');
+            // Extract Aircraft Model from Document description (applies to entire flight)
+            let aircraftModel = null;
+            let aircraftInfo = null;
+            const docDescription = xmlDoc.querySelector('Document > description');
+            if (docDescription) {
+              const docHtmlContent = docDescription.textContent;
+              // Look for "Aircraft<span...>(MODEL)</span>"
+              const modelMatch = docHtmlContent.match(/Aircraft.*?\((\w+)\)/);
+              if (modelMatch) {
+                aircraftModel = modelMatch[1];
+              }
 
-            if (timestampNode && pointNode) {
-              const coords = pointNode.textContent.trim().split(',');
-              const lng = parseFloat(coords[0]);
-              const lat = parseFloat(coords[1]);
-              const alt = parseFloat(coords[2]) || 0; // standard KML alt is meters usually, but let's check
-              // Wait, the KML example description says "Altitude: 0 ft". 
-              // The <coordinates> usually have altitude in meters in standard KML, BUT
-              // let's rely on the Description HTML if available for more precise/data-logger specific values (Speed/Heading).
-              // Actually, let's parse the description for consistent data matching the CSV columns.
+              // Parse aircraft information from KML
+              aircraftInfo = parseKMLAircraftInfo(e.target.result);
+            }
 
-              let altitudeFeet = 0;
-              let speedKt = 0;
-              let headingDeg = 0;
+            // Find all Placemarks that look like track points (have TimeStamp)
+            const placemarks = xmlDoc.querySelectorAll('Placemark');
 
-              if (descriptionNode) {
-                const htmlContent = descriptionNode.textContent;
-                const parser = new DOMParser();
-                const htmlDoc = parser.parseFromString(htmlContent, 'text/html');
+            placemarks.forEach(pm => {
+              const timestampNode = pm.querySelector('TimeStamp > when');
+              const pointNode = pm.querySelector('Point > coordinates');
+              const descriptionNode = pm.querySelector('description');
 
-                // Helper to extracting numeric value from sibling span
-                const extractValue = (label) => {
-                  const bTags = htmlDoc.getElementsByTagName('b');
-                  for (let i = 0; i < bTags.length; i++) {
-                    if (bTags[i].textContent.includes(label)) {
-                      let valueContainer = null;
-                      // Check 1: <description>...<span><b>Label:</b></span> <span>Value</span>...</description>
-                      // bTag -> parent(span) -> nextElementSibling(span)
-                      if (bTags[i].parentElement && bTags[i].parentElement.tagName.toLowerCase() === 'span') {
-                        valueContainer = bTags[i].parentElement.nextElementSibling;
-                      }
-                      // Check 2: Direct sibling? <b>Label:</b> <span>Value</span>
-                      if (!valueContainer) {
-                        valueContainer = bTags[i].nextElementSibling;
-                      }
+              if (timestampNode && pointNode) {
+                const coords = pointNode.textContent.trim().split(',');
+                const lng = parseFloat(coords[0]);
+                const lat = parseFloat(coords[1]);
+                const alt = parseFloat(coords[2]) || 0;
 
-                      if (valueContainer) {
-                        let text = valueContainer.textContent.trim();
+                let altitudeFeet = 0;
+                let speedKt = 0;
+                let headingDeg = 0;
 
-                        // Handle range "24,925 ft - 23,325 ft" -> take the right side
-                        if (text.includes('-')) {
-                          const parts = text.split('-');
-                          text = parts[parts.length - 1].trim();
+                if (descriptionNode) {
+                  const htmlContent = descriptionNode.textContent;
+                  const parser = new DOMParser();
+                  const htmlDoc = parser.parseFromString(htmlContent, 'text/html');
+
+                  // Helper to extracting numeric value from sibling span
+                  const extractValue = (label) => {
+                    const bTags = htmlDoc.getElementsByTagName('b');
+                    for (let i = 0; i < bTags.length; i++) {
+                      if (bTags[i].textContent.includes(label)) {
+                        let valueContainer = null;
+                        // Check 1: <description>...<span><b>Label:</b></span> <span>Value</span>...</description>
+                        if (bTags[i].parentElement && bTags[i].parentElement.tagName.toLowerCase() === 'span') {
+                          valueContainer = bTags[i].parentElement.nextElementSibling;
+                        }
+                        // Check 2: Direct sibling? <b>Label:</b> <span>Value</span>
+                        if (!valueContainer) {
+                          valueContainer = bTags[i].nextElementSibling;
                         }
 
-                        // Remove commas "23,325" -> "23325"
-                        text = text.replace(/,/g, '');
+                        if (valueContainer) {
+                          let text = valueContainer.textContent.trim();
 
-                        const match = text.match(/(\d+)/);
-                        if (match) return parseInt(match[1]);
+                          // Handle range "24,925 ft - 23,325 ft" -> take the right side
+                          if (text.includes('-')) {
+                            const parts = text.split('-');
+                            text = parts[parts.length - 1].trim();
+                          }
+
+                          // Remove commas "23,325" -> "23325"
+                          text = text.replace(/,/g, '');
+
+                          const match = text.match(/(\d+)/);
+                          if (match) return parseInt(match[1]);
+                        }
                       }
                     }
-                  }
 
-                  // Fallback: Regex on full text
-                  const cleanText = htmlDoc.body.textContent || "";
-                  const backupRegex = new RegExp(label + "\\s*[:]?\\s*(\\d+)");
-                  const match = cleanText.match(backupRegex);
-                  if (match) return parseInt(match[1]);
+                    // Fallback: Regex on full text
+                    const cleanText = htmlDoc.body.textContent || "";
+                    const backupRegex = new RegExp(label + "\\s*[:]?\\s*(\\d+)");
+                    const match = cleanText.match(backupRegex);
+                    if (match) return parseInt(match[1]);
 
-                  return null;
-                };
+                    return null;
+                  };
 
-                const altConf = extractValue('Altitude');
-                if (altConf !== null) altitudeFeet = altConf;
+                  const altConf = extractValue('Altitude');
+                  if (altConf !== null) altitudeFeet = altConf;
 
-                const spdConf = extractValue('Speed');
-                if (spdConf !== null) speedKt = spdConf;
+                  const spdConf = extractValue('Speed');
+                  if (spdConf !== null) speedKt = spdConf;
 
-                const hdgConf = extractValue('Heading');
-                if (hdgConf !== null) headingDeg = hdgConf;
+                  const hdgConf = extractValue('Heading');
+                  if (hdgConf !== null) headingDeg = hdgConf;
 
-              } else {
-                // Fallback if no description (standard KML)
-                // If standard KML, coords[2] is meters. 1m = 3.28084ft
-                altitudeFeet = (parseFloat(coords[2]) || 0) * 3.28084;
-              }
+                } else {
+                  // Fallback if no description (standard KML)
+                  // standard KML, coords[2] is meters.
+                  altitudeFeet = (parseFloat(coords[2]) || 0) * 3.28084;
+                }
 
-              // Check for Style Heading fallback
-              if (headingDeg === 0) {
-                const iconHeading = pm.querySelector('Style > IconStyle > heading');
-                if (iconHeading) headingDeg = parseInt(iconHeading.textContent);
-              }
+                // Check for Style Heading fallback
+                if (headingDeg === 0) {
+                  const iconHeading = pm.querySelector('Style > IconStyle > heading');
+                  if (iconHeading) headingDeg = parseInt(iconHeading.textContent);
+                }
 
-              if (!isNaN(lat) && !isNaN(lng)) {
-                const rawTime = timestampNode.textContent;
-                // Calculate unix timestamp for graph
-                const unixTime = new Date(rawTime).getTime() / 1000;
-
-                flightPoints.push({
-                  lat: lat,
-                  lng: lng,
-                  altitudeFeet: altitudeFeet,
-                  speed: speedKt,
-                  direction: headingDeg,
-                  rawUnix: unixTime,
-                  time: formatTime(rawTime), // formatTime handles 'Invalid Date' checks internally
-                  utcTime: formatUTCTime(rawTime), // reusing existing if format matches
-                  model: aircraftModel // Store aircraft model
-                });
-              }
-            }
-          });
-
-          if (flightPoints.length === 0) {
-            showErrorPopup();
-            return;
-          }
-
-          finishProcessingFlight(flightPoints, flightName, index, isSingleFile, { data: [] }, aircraftInfo); // Pass aircraft info
-        };
-        reader.readAsText(file);
-      }
-
-      function processCSVFile(file, index, isSingleFile) {
-        Papa.parse(file, {
-          header: true,
-          complete: function (results) {
-            const data = results.data;
-            const flightPoints = [];
-            // const flightSegments = []; // Unused variable
-            let flightName = file.name.replace('.csv', '');
-
-            if (results.meta.fields && results.meta.fields.length >= 3) {
-              const c2Value = results.data[0] ? results.data[0][results.meta.fields[2]] : '';
-              flightName = c2Value || flightName;
-            }
-
-            data.forEach(row => {
-              if (row.Position && row.Altitude) {
-                const [lat, lng] = row.Position.split(',').map(Number);
-                const altitudeFeet = parseFloat(row.Altitude);
-                const direction = parseFloat(row.Direction) || 0;
-
-                if (!isNaN(lat) && !isNaN(lng) && !isNaN(altitudeFeet)) {
-                  let rawUnix = 0;
-                  try {
-                    const dateStr = row.UTC || row.Timestamp;
-                    if (dateStr) {
-                      const d = new Date(dateStr);
-                      if (!isNaN(d.getTime())) {
-                        rawUnix = d.getTime() / 1000;
-                      }
-                    }
-                  } catch (e) {
-                    console.warn("Error parsing date:", e);
-                  }
+                if (!isNaN(lat) && !isNaN(lng)) {
+                  const rawTime = timestampNode.textContent;
+                  const unixTime = new Date(rawTime).getTime() / 1000;
 
                   flightPoints.push({
-                    lat,
-                    lng,
+                    lat: lat,
+                    lng: lng,
                     altitudeFeet: altitudeFeet,
-                    speed: row.Speed || 'N/A',
-                    direction: direction,
-                    rawUnix: rawUnix,
-                    time: formatTime(row.Timestamp),
-                    utcTime: formatUTCTime(row.UTC)
+                    speed: speedKt,
+                    direction: headingDeg,
+                    rawUnix: unixTime,
+                    time: formatTime(rawTime),
+                    utcTime: formatUTCTime(rawTime),
+                    model: aircraftModel
                   });
                 }
               }
             });
 
-
             if (flightPoints.length === 0) {
-              showErrorPopup();
+              if (onComplete) onComplete(false, file.name);
               return;
             }
 
-            if (flightPoints.length < 2) return;
+            finishProcessingFlight(flightPoints, flightName, index, isSingleFile, { data: [] }, aircraftInfo);
+            if (onComplete) onComplete(true, file.name);
 
-            finishProcessingFlight(flightPoints, flightName, index, isSingleFile, results, null); // CSV files don't have aircraft info
+          } catch (err) {
+            console.error(err);
+            if (onComplete) onComplete(false, file.name);
+          }
+        };
+
+        reader.onerror = function () {
+          if (onComplete) onComplete(false, file.name);
+        };
+
+        reader.readAsText(file);
+      }
+
+      function processCSVFile(file, index, isSingleFile, onComplete) {
+        Papa.parse(file, {
+          header: true,
+          complete: function (results) {
+            try {
+              const data = results.data;
+              const flightPoints = [];
+              let flightName = file.name.replace('.csv', '');
+
+              if (results.meta.fields && results.meta.fields.length >= 3) {
+                const c2Value = results.data[0] ? results.data[0][results.meta.fields[2]] : '';
+                flightName = c2Value || flightName;
+              }
+
+              data.forEach(row => {
+                if (row.Position && row.Altitude) {
+                  const [lat, lng] = row.Position.split(',').map(Number);
+                  const altitudeFeet = parseFloat(row.Altitude);
+                  const direction = parseFloat(row.Direction) || 0;
+
+                  if (!isNaN(lat) && !isNaN(lng) && !isNaN(altitudeFeet)) {
+                    let rawUnix = 0;
+                    try {
+                      const dateStr = row.UTC || row.Timestamp;
+                      if (dateStr) {
+                        const d = new Date(dateStr);
+                        if (!isNaN(d.getTime())) {
+                          rawUnix = d.getTime() / 1000;
+                        }
+                      }
+                    } catch (e) {
+                      console.warn("Error parsing date:", e);
+                    }
+
+                    flightPoints.push({
+                      lat,
+                      lng,
+                      altitudeFeet: altitudeFeet,
+                      speed: row.Speed || 'N/A',
+                      direction: direction,
+                      rawUnix: rawUnix,
+                      time: formatTime(row.Timestamp),
+                      utcTime: formatUTCTime(row.UTC)
+                    });
+                  }
+                }
+              });
+
+              if (flightPoints.length === 0) {
+                if (onComplete) onComplete(false, file.name);
+                return;
+              }
+
+              if (flightPoints.length < 2) {
+                if (onComplete) onComplete(false, file.name); // Treat as fail for valid tracking
+                return;
+              }
+
+              finishProcessingFlight(flightPoints, flightName, index, isSingleFile, results, null);
+              if (onComplete) onComplete(true, file.name);
+
+            } catch (err) {
+              console.error(err);
+              if (onComplete) onComplete(false, file.name);
+            }
+          },
+          error: function () {
+            if (onComplete) onComplete(false, file.name);
           }
         });
       }
@@ -4504,8 +4895,14 @@
         updateToggleTracksButton();
 
         if (!is3DMode) {
-          const loadingOverlay = document.getElementById('loadingOverlay');
-          if (loadingOverlay) loadingOverlay.style.display = 'none';
+          // Note: loadingOverlay is now managed by handleMultiFiles completion for bulk loads
+          // We only hide it here if we are NOT in the bulk loading flow, which is rare.
+          // But actually, since handleMultiFiles clears everything first, we rely on IT to hide the overlay.
+          // However, if we process a SINGLE file via some other means (not implemented currently), we might need this.
+          // To be safe, we leave it but handleMultiFiles also hides it.
+          // Actually, handleMultiFiles relies on a counter. If we hide it here immediately, it might flash if we have 10 files.
+          // So let's REMOVE it from here and rely SOLELY on handleMultiFiles completion.
+          // This prevents premature hiding.
         }
       }
 
@@ -4547,6 +4944,7 @@
         // Update UI
         document.getElementById('multi_file_button').textContent = `${flight.name}`;
         progressBar.max = flightPathPoints.length - 1;
+        progressBar.step = "0.01"; // Enable smooth sliding
         progressBar.disabled = false;
         speedControl.disabled = false;
         progressBar.value = 0;
