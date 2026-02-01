@@ -3982,7 +3982,7 @@
         }
 
         // Get aircraft info
-        const callsign = currentAircraftInfo?.callsign || flightName || 'N/A';
+        const callsign = currentAircraftInfo?.callsign || flightName || '-------';
         const acIcao = point.model || currentAircraftInfo?.ACICAOCode || '----';
         const altitude = Math.round(point.altitudeFeet || 0);
         const speed = Math.round(point.speed || 0);
@@ -4691,7 +4691,7 @@
                       lat,
                       lng,
                       altitudeFeet: altitudeFeet,
-                      speed: row.Speed || 'N/A',
+                      speed: parseFloat(row.Speed) || 0,
                       direction: direction,
                       rawUnix: rawUnix,
                       time: formatTime(row.Timestamp),
